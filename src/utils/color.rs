@@ -30,7 +30,7 @@ pub fn argb_from_rgb(red: u8, green: u8, blue: u8) -> u32 {
     | (blue as u32 & 255)
 }
 
-pub fn argb_from_linrgb<T>(linrgb: &[f64; 3]) -> u32
+pub fn argb_from_linrgb<T>(linrgb: [f64; 3]) -> u32
 where
   T: Float,
 {
@@ -41,22 +41,22 @@ where
 }
 
 /// Returns the alpha component of a color in ARGB format.
-pub fn alpha_from_argb(argb: u32) -> u8 {
+pub const fn alpha_from_argb(argb: u32) -> u8 {
   ((argb >> 24) & 255) as u8
 }
 
 /// Returns the red component of a color in ARGB format.
-pub fn red_from_argb(argb: u32) -> u8 {
+pub const fn red_from_argb(argb: u32) -> u8 {
   ((argb >> 16) & 255) as u8
 }
 
 /// Returns the green component of a color in ARGB format.
-pub fn green_from_argb(argb: u32) -> u8 {
+pub const fn green_from_argb(argb: u32) -> u8 {
   ((argb >> 8) & 255) as u8
 }
 
 /// Returns the blue component of a color in ARGB format.
-pub fn blue_from_argb(argb: u32) -> u8 {
+pub const fn blue_from_argb(argb: u32) -> u8 {
   (argb & 255) as u8
 }
 
