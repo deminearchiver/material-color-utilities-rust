@@ -1,0 +1,16 @@
+[package]
+name = "material-color-utilities"
+description = "Color libraries for Material You"
+version = "1.0.0-dev.0"
+edition = "2024"
+license = "Apache-2.0"
+keywords = ["material", "color"]
+readme = "README.md"
+repository = "https://github.com/deminearchiver/material-color-utilities-rust/"
+
+[dependencies]
+num-traits = "0.2"
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "2.0"
+
+[features]
