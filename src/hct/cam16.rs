@@ -1,5 +1,8 @@
 use std::f64;
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 use crate::{hct::ViewingConditions, utils};
 
 /// Transforms XYZ color space coordinates to 'cone'/'RGB' responses in CAM16.
@@ -30,6 +33,7 @@ pub(crate) const CAM16RGB_TO_XYZ: [[f64; 3]; 3] = [
 /// For example, white under the traditional assumption of a midday sun white point is accurately
 /// measured as a slightly chromatic blue by CAM16. (roughly, hue 203, chroma 3, lightness 100)
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct Cam16 {
   // CAM16 color dimensions, see getters for documentation.
   hue: f64,

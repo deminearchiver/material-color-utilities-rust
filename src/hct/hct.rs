@@ -1,6 +1,8 @@
 use std::fmt::Display;
 
 use num_traits::{Float, FromPrimitive};
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
 
 use crate::{
   hct::{Cam16, ViewingConditions, hct_solver},
@@ -8,6 +10,7 @@ use crate::{
 };
 
 #[derive(Debug, Clone)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct Hct {
   hue: f64,
   chroma: f64,

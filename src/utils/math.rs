@@ -1,4 +1,4 @@
-use num_traits::{Float, FromPrimitive, Num, Signed};
+use num_traits::{FromPrimitive, Num, Signed};
 
 pub fn lerp<T>(start: T, stop: T, amount: T) -> T
 where

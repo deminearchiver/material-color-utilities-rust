@@ -1,4 +1,3 @@
-use crate::utils::math;
 use num_traits::{Float, FromPrimitive, ToPrimitive};
 
 const SRGB_TO_XYZ: [[f64; 3]; 3] = [

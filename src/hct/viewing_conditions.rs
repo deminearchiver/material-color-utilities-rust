@@ -1,5 +1,8 @@
 use std::f64;
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 use crate::{hct::XYZ_TO_CAM16RGB, utils};
 
 /// In traditional color spaces, a color can be identified solely by the observer's measurement of
@@ -12,6 +15,7 @@ use crate::{hct::XYZ_TO_CAM16RGB, utils};
 /// This class caches intermediate values of the CAM16 conversion process that depend only on
 /// viewing conditions, enabling speed ups.
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct ViewingConditions {
   aw: f64,
   nbb: f64,
