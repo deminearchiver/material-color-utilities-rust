@@ -1,3 +1,5 @@
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 use crate::hct::Hct;
@@ -6,7 +8,9 @@ use crate::hct::Hct;
 ///
 /// TonalPalette is intended for use in a single thread due to its stateful caching.
 #[derive(Debug)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct TonalPalette {
+  #[cfg_attr(feature = "serde", serde(skip_serializing, default))]
   cache: HashMap<u8, u32>,
   hue: f64,
   chroma: f64,
