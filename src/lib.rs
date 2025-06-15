@@ -13,7 +13,7 @@ pub mod contrast;
 pub mod hct;
 pub mod palettes;
 pub mod score;
-pub mod temperature;
+pub mod temperature_cache;
 pub mod utils;
 
 #[cfg(test)]
