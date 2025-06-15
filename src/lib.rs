@@ -11,6 +11,7 @@
 pub mod blend;
 pub mod contrast;
 pub mod hct;
+pub mod palettes;
 pub mod temperature;
 pub mod utils;
 
