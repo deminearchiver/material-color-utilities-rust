@@ -543,7 +543,7 @@ where
 }
 
 /// Finds a color with the given hue, chroma, and Y.
-fn find_result_by_j(hueRadians: f64, chroma: f64, y: f64) -> u32 {
+fn find_result_by_j(hue_radians: f64, chroma: f64, y: f64) -> u32 {
   // Initial estimate of j.
   let mut j = y.sqrt() * 11.0;
   // ===========================================================
@@ -552,13 +552,13 @@ fn find_result_by_j(hueRadians: f64, chroma: f64, y: f64) -> u32 {
   let viewing_conditions = ViewingConditions::default();
   let t_inner_coeff =
     1.0 / f64::powf(1.64 - f64::powf(0.29, viewing_conditions.n()), 0.73);
-  let e_hue = 0.25 * (f64::cos(hueRadians + 2.0) + 3.8);
+  let e_hue = 0.25 * (f64::cos(hue_radians + 2.0) + 3.8);
   let p1 = e_hue
     * (50000.0 / 13.0)
     * viewing_conditions.nc()
     * viewing_conditions.ncb();
-  let h_sin = hueRadians.sin();
-  let h_cos = hueRadians.cos();
+  let h_sin = hue_radians.sin();
+  let h_cos = hue_radians.cos();
 
   for iteration_round in 0..5 {
     // ===========================================================
@@ -634,6 +634,7 @@ pub fn solve_to_int(hue_degrees: f64, chroma: f64, lstar: f64) -> u32 {
 }
 
 /// Finds an sRGB color with the given hue, chroma, and L*, if possible.
+#[allow(dead_code)]
 pub fn solve_to_cam(hue_degrees: f64, chroma: f64, lstar: f64) -> Cam16 {
   Cam16::from_int(solve_to_int(hue_degrees, chroma, lstar))
 }
