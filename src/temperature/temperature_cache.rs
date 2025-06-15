@@ -1,19 +1,70 @@
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 use num_traits::Float;
 
 use crate::{hct::Hct, utils};
 
-const HUES: usize = 361;
+const HCT_HUES_LEN: usize = 361;
 
+#[cfg(feature = "serde")]
+fn complement_cache_default() -> Option<Hct> {
+  None
+}
+
+#[cfg(feature = "serde")]
+fn input_relative_temperature_cache_default() -> f64 {
+  -1.0
+}
+
+#[cfg(feature = "serde")]
+fn hcts_by_temp_cache_default() -> Vec<Hct> {
+  Vec::with_capacity(HCT_HUES_LEN)
+}
+
+#[cfg(feature = "serde")]
+fn hcts_by_hue_cache_default() -> Vec<Hct> {
+  Vec::with_capacity(HCT_HUES_LEN)
+}
+
+#[cfg(feature = "serde")]
+fn temps_by_hct_cache_default() -> HashMap<u16, f64> {
+  HashMap::with_capacity(HCT_HUES_LEN)
+}
+
+#[derive(Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct TemperatureCache {
   input: Hct,
-
+  #[cfg_attr(
+    feature = "serde",
+    serde(skip_serializing, default = "complement_cache_default")
+  )]
   complement_cache: Option<Hct>,
+  #[cfg_attr(
+    feature = "serde",
+    serde(skip_serializing, default = "hcts_by_temp_cache_default")
+  )]
   hcts_by_temp_cache: Vec<Hct>,
+  #[cfg_attr(
+    feature = "serde",
+    serde(skip_serializing, default = "hcts_by_hue_cache_default")
+  )]
   hcts_by_hue_cache: Vec<Hct>,
+  #[cfg_attr(
+    feature = "serde",
+    serde(
+      skip_serializing,
+      default = "input_relative_temperature_cache_default"
+    )
+  )]
   input_relative_temperature_cache: f64,
-  precomputed_temps_by_hct: HashMap<u16, f64>,
+  #[cfg_attr(
+    feature = "serde",
+    serde(skip_serializing, default = "temps_by_hct_cache_default")
+  )]
+  temps_by_hct_cache: HashMap<u16, f64>,
 }
 
 impl TemperatureCache {
@@ -22,9 +73,9 @@ impl TemperatureCache {
       input,
       complement_cache: None,
       input_relative_temperature_cache: -1.0,
-      hcts_by_temp_cache: Vec::with_capacity(HUES),
-      hcts_by_hue_cache: Vec::with_capacity(HUES),
-      precomputed_temps_by_hct: HashMap::with_capacity(HUES),
+      hcts_by_temp_cache: Vec::with_capacity(HCT_HUES_LEN),
+      hcts_by_hue_cache: Vec::with_capacity(HCT_HUES_LEN),
+      temps_by_hct_cache: HashMap::with_capacity(HCT_HUES_LEN),
     }
   }
 
@@ -268,18 +319,18 @@ impl TemperatureCache {
   }
 
   pub fn temps_by_hct(&mut self) -> &HashMap<u16, f64> {
-    if self.precomputed_temps_by_hct.is_empty() {
+    if self.temps_by_hct_cache.is_empty() {
       let mut all_hcts = self.hcts_by_hue().clone();
       all_hcts.push(self.input.clone());
 
       for hct in all_hcts {
         let hue = hct.hue().round() as u16;
         self
-          .precomputed_temps_by_hct
+          .temps_by_hct_cache
           .insert(hue, Self::raw_temperature(hct));
       }
     }
-    &self.precomputed_temps_by_hct
+    &self.temps_by_hct_cache
   }
 
   /// Determines if an angle is between two other angles, rotating clockwise.
