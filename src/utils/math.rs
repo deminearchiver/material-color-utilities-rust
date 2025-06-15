@@ -9,35 +9,34 @@ where
 
 pub fn sanitize_degrees<T>(mut degrees: T) -> T
 where
-  T: Num + Signed + PartialOrd + Copy + FromPrimitive,
+  T: Num + PartialOrd + FromPrimitive,
 {
-  let full = T::from_i32(360).unwrap();
-  let zero = T::zero();
-  degrees = degrees % full;
+  let zero = T::from_f64(0.0).unwrap();
+  degrees = degrees % T::from_f64(360.0).unwrap();
   if degrees < zero {
-    degrees = degrees + full;
+    degrees = degrees + T::from_f64(360.0).unwrap();
   }
   degrees
 }
 
 pub fn rotation_direction<T>(from: T, to: T) -> T
 where
-  T: Num + Signed + PartialOrd + Copy + FromPrimitive,
+  T: Num + PartialOrd + FromPrimitive,
 {
   let increasing_difference = sanitize_degrees(to - from);
-  if increasing_difference <= T::from_i32(180).unwrap() {
-    T::from_i32(1).unwrap()
+  if increasing_difference <= T::from_f64(180.0).unwrap() {
+    T::from_f64(1.0).unwrap()
   } else {
-    T::from_i32(-1).unwrap()
+    T::from_f64(-1.0).unwrap()
   }
 }
 
 pub fn difference_degrees<T>(a: T, b: T) -> T
 where
-  T: Num + Signed + Copy + FromPrimitive,
+  T: Num + Signed + FromPrimitive,
 {
-  let half = T::from_i32(180).unwrap();
-  half - ((a - b).abs() - half).abs()
+  T::from_f64(180.0).unwrap()
+    - ((a - b).abs() - T::from_f64(180.0).unwrap()).abs()
 }
 
 pub fn matrix_multiply<T>(row: &[T; 3], matrix: &[[T; 3]; 3]) -> [T; 3]

@@ -4,4 +4,11 @@
     "editor.formatOnSave": true,
   },
   "rust-analyzer.cargo.features": "all",
+  "colorize.languages": [
+    "rust"
+  ],
+  "colorize.colorized_colors": [
+    "ARGB",
+    "RGB",
+  ]
 }

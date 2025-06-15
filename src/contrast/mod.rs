@@ -79,6 +79,8 @@ pub fn ratio_of_ys(y1: f64, y2: f64) -> f64 {
 /// color's lightness to in order to reach their desired contrast, instead of guessing & checking
 /// with hex codes.
 pub fn ratio_of_tones(t1: f64, t2: f64) -> f64 {
+  let t1 = t1.clamp(0.0, 100.0);
+  let t2 = t2.clamp(0.0, 100.0);
   ratio_of_ys(
     utils::color::y_from_lstar(t1),
     utils::color::y_from_lstar(t2),
@@ -162,43 +164,53 @@ pub fn darker_unsafe(tone: f64, ratio: f64) -> f64 {
   f64::max(0.0, darker_safe)
 }
 
-// TODO: implement tests properly
-// #[cfg(test)]
-// mod tests {
-//   use std::fmt::Display;
+#[cfg(test)]
+mod tests {
+  use super::*;
+  use crate::test::*;
 
-//   use super::*;
+  #[test]
+  fn ratio_of_tones_out_of_bounds_input() {
+    assert_approx_eq!(21.0, ratio_of_tones(-10.0, 110.0), 0.001)
+  }
 
-//   use num_traits::{Float, FromPrimitive};
+  #[test]
+  fn lighter_impossible_ratio_errors() {
+    assert_approx_eq!(-1.0, lighter(90.0, 10.0), 0.001)
+  }
 
-//   fn approx_eq<T>(a: T, b: T, precision: T) -> bool
-//   where
-//     T: Float + FromPrimitive,
-//   {
-//     let pow = T::powf(
-//       T::from_f64(10.0).unwrap(),
-//       precision + T::from_f64(1.0).unwrap(),
-//     );
-//     let delta = (a - b).abs();
-//     let max_delta = T::powf(T::from_f64(10.0).unwrap(), -precision)
-//       / T::from_f64(2.0).unwrap();
-//     (delta * pow).round() <= max_delta * pow
-//   }
+  #[test]
+  fn lighter_out_of_bounds_input_above_errors() {
+    assert_approx_eq!(-1.0, lighter(110.0, 2.0), 0.001)
+  }
 
-//   fn assert_approx_eq<T>(a: T, b: T, precision: T)
-//   where
-//     T: Float + FromPrimitive + Display,
-//   {
-//     let pass = approx_eq(a, b, precision);
-//     assert!(pass, "{} != {}", a, b)
-//   }
+  #[test]
+  fn lighter_out_of_bounds_input_below_errors() {
+    assert_approx_eq!(-1.0, lighter(-10.0, 2.0), 0.001)
+  }
 
-//   fn assert_approx_ne<T>(a: T, b: T, precision: T)
-//   where
-//     T: Float + FromPrimitive + Display,
-//   {
-//     let pass = approx_eq(a, b, precision);
-//     assert!(!pass, "{} == {}", a, b);
-//   }
+  #[test]
+  fn lighter_unsafe_returns_max_tone() {
+    assert_approx_eq!(100.0, lighter_unsafe(100.0, 2.0), 0.001)
+  }
 
-// }
+  #[test]
+  fn darker_impossible_ratio_errors() {
+    assert_approx_eq!(-1.0, darker(10.0, 20.0), 0.001)
+  }
+
+  #[test]
+  fn darker_out_of_bounds_input_above_errors() {
+    assert_approx_eq!(-1.0, darker(110.0, 20.0), 0.001)
+  }
+
+  #[test]
+  fn darker_out_of_bounds_input_below_errors() {
+    assert_approx_eq!(-1.0, darker(-10.0, 20.0), 0.001)
+  }
+
+  #[test]
+  fn darker_unsafe_returns_min_tone() {
+    assert_approx_eq!(0.0, darker_unsafe(0.0, 2.0), 0.001)
+  }
+}

@@ -9,7 +9,7 @@ use crate::{
   utils,
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct Hct {
   hue: f64,
@@ -137,5 +137,17 @@ impl Display for Hct {
       self.chroma().round() as i32,
       self.tone().round() as i32,
     )
+  }
+}
+
+// Explicit implementation
+impl Default for Hct {
+  fn default() -> Self {
+    Self {
+      hue: 0.0,
+      chroma: 0.0,
+      tone: 0.0,
+      argb: 0xff000000,
+    }
   }
 }
