@@ -23,10 +23,7 @@ const XYZ_TO_SRGB: [[f64; 3]; 3] = [
 const WHITE_POINT_D65: [f64; 3] = [95.047, 100.0, 108.883];
 
 pub fn argb_from_rgb(red: u8, green: u8, blue: u8) -> u32 {
-  (255 << 24)
-    | ((red as u32 & 255) << 16)
-    | ((green as u32 & 255) << 8)
-    | (blue as u32 & 255)
+  (255 << 24) | ((red as u32 & 255) << 16) | ((green as u32 & 255) << 8) | (blue as u32 & 255)
 }
 
 pub fn argb_from_linrgb<T>(linrgb: [f64; 3]) -> u32
@@ -164,8 +161,7 @@ where
   T: Float + FromPrimitive,
 {
   let y: T = xyz_from_argb(argb)[1];
-  T::from_f64(116.0).unwrap() * lab_f(y / T::from_f64(100.0).unwrap())
-    - T::from_f64(16.0).unwrap()
+  T::from_f64(116.0).unwrap() * lab_f(y / T::from_f64(100.0).unwrap()) - T::from_f64(16.0).unwrap()
 }
 
 pub fn y_from_lstar<T>(lstar: T) -> T
@@ -173,25 +169,21 @@ where
   T: Float + FromPrimitive,
 {
   T::from_f64(100.0).unwrap()
-    * lab_inv_f(
-      (lstar + T::from_f64(16.0).unwrap()) / T::from_f64(116.0).unwrap(),
-    )
+    * lab_inv_f((lstar + T::from_f64(16.0).unwrap()) / T::from_f64(116.0).unwrap())
 }
 
 pub fn lstar_from_y<T>(y: T) -> T
 where
   T: Float + FromPrimitive,
 {
-  lab_f(y / T::from_f64(100.0).unwrap()) * T::from_f64(116.0).unwrap()
-    - T::from_f64(16.0).unwrap()
+  lab_f(y / T::from_f64(100.0).unwrap()) * T::from_f64(116.0).unwrap() - T::from_f64(16.0).unwrap()
 }
 
 pub fn linearized<T>(rgb_component: u8) -> T
 where
   T: Float + PartialOrd + FromPrimitive,
 {
-  let normalized =
-    T::from(rgb_component).unwrap() / T::from_f64(255.0).unwrap();
+  let normalized = T::from(rgb_component).unwrap() / T::from_f64(255.0).unwrap();
   if normalized <= T::from_f64(0.040449936).unwrap() {
     normalized / T::from_f64(12.92).unwrap() * T::from_f64(100.0).unwrap()
   } else {

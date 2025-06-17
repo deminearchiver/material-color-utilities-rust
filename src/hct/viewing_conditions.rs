@@ -75,15 +75,9 @@ impl ViewingConditions {
     // Transform white point XYZ to 'cone'/'rgb' responses
     let matrix = XYZ_TO_CAM16RGB;
     let xyz = white_point;
-    let r_w = (xyz[0] * matrix[0][0])
-      + (xyz[1] * matrix[0][1])
-      + (xyz[2] * matrix[0][2]);
-    let g_w = (xyz[0] * matrix[1][0])
-      + (xyz[1] * matrix[1][1])
-      + (xyz[2] * matrix[1][2]);
-    let b_w = (xyz[0] * matrix[2][0])
-      + (xyz[1] * matrix[2][1])
-      + (xyz[2] * matrix[2][2]);
+    let r_w = (xyz[0] * matrix[0][0]) + (xyz[1] * matrix[0][1]) + (xyz[2] * matrix[0][2]);
+    let g_w = (xyz[0] * matrix[1][0]) + (xyz[1] * matrix[1][1]) + (xyz[2] * matrix[1][2]);
+    let b_w = (xyz[0] * matrix[2][0]) + (xyz[1] * matrix[2][1]) + (xyz[2] * matrix[2][2]);
     let f = 0.8 + (surround / 10.0);
     let c = if f >= 0.9 {
       utils::math::lerp(0.59, 0.69, (f - 0.9) * 10.0)
@@ -105,8 +99,7 @@ impl ViewingConditions {
     let k = 1.0 / (5.0 * adapting_luminance + 1.0);
     let k4 = k * k * k * k;
     let k4_f = 1.0 - k4;
-    let fl = (k4 * adapting_luminance)
-      + (0.1 * k4_f * k4_f * f64::cbrt(5.0 * adapting_luminance));
+    let fl = (k4 * adapting_luminance) + (0.1 * k4_f * k4_f * f64::cbrt(5.0 * adapting_luminance));
     let n = utils::color::y_from_lstar(background_lstar) / white_point[1];
     let z = 1.48 + f64::sqrt(n);
     let nbb = 0.725 / n.powf(0.2);

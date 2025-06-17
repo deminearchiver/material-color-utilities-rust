@@ -105,8 +105,7 @@ pub fn lighter(tone: f64, ratio: f64) -> f64 {
     return -1.0;
   }
 
-  let return_value =
-    utils::color::lstar_from_y(light_y) + LUMINANCE_GAMUT_MAP_TOLERANCE;
+  let return_value = utils::color::lstar_from_y(light_y) + LUMINANCE_GAMUT_MAP_TOLERANCE;
   // NOMUTANTS--important validation step; functions it is calling may change implementation.
   if !(0.0..=100.0).contains(&return_value) {
     return -1.0;
@@ -146,8 +145,7 @@ pub fn darker(tone: f64, ratio: f64) -> f64 {
   }
 
   // For information on 0.4 constant, see comment in lighter(tone, ratio).
-  let return_value =
-    utils::color::lstar_from_y(dark_y) - LUMINANCE_GAMUT_MAP_TOLERANCE;
+  let return_value = utils::color::lstar_from_y(dark_y) - LUMINANCE_GAMUT_MAP_TOLERANCE;
   // NOMUTANTS--important validation step; functions it is calling may change implementation.
   if !(0.0..=100.0).contains(&return_value) {
     return -1.0;

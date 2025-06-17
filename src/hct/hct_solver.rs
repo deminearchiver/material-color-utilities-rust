@@ -296,8 +296,7 @@ fn sanitize_radians<T>(angle: T) -> T
 where
   T: Float + FloatConst + FromPrimitive,
 {
-  (angle + T::PI() * T::from_f64(8.0).unwrap())
-    % (T::PI() * T::from_f64(2.0).unwrap())
+  (angle + T::PI() * T::from_f64(8.0).unwrap()) % (T::PI() * T::from_f64(2.0).unwrap())
 }
 
 /// Delinearizes an RGB component, returning a floating-point number.
@@ -321,14 +320,12 @@ where
   T: Float + FromPrimitive,
 {
   let af = component.abs().powf(T::from_f64(0.42).unwrap());
-  component.signum() * T::from_f64(400.0).unwrap() * af
-    / (af + T::from_f64(27.13).unwrap())
+  component.signum() * T::from_f64(400.0).unwrap() * af / (af + T::from_f64(27.13).unwrap())
 }
 
 /// Returns the hue of a linear RGB color in CAM16.
 fn hue_of(linrgb: [f64; 3]) -> f64 {
-  let scaled_discount =
-    utils::math::matrix_multiply(&linrgb, &SCALED_DISCOUNT_FROM_LINRGB);
+  let scaled_discount = utils::math::matrix_multiply(&linrgb, &SCALED_DISCOUNT_FROM_LINRGB);
   let r_a = chromatic_adaptation(scaled_discount[0]);
   let g_a = chromatic_adaptation(scaled_discount[1]);
   let b_a = chromatic_adaptation(scaled_discount[2]);
@@ -368,12 +365,7 @@ where
 }
 
 /// Intersects a segment with a plane.
-fn set_coordinate<T>(
-  source: [T; 3],
-  coordinate: T,
-  target: [T; 3],
-  axis: usize,
-) -> [T; 3]
+fn set_coordinate<T>(source: [T; 3], coordinate: T, target: [T; 3], axis: usize) -> [T; 3]
 where
   T: Float,
 {
@@ -535,11 +527,9 @@ where
   let adapted_abs = adapted.abs();
   let base = T::max(
     T::from_f64(0.0).unwrap(),
-    T::from_f64(27.13).unwrap() * adapted_abs
-      / (T::from_f64(400.0).unwrap() - adapted_abs),
+    T::from_f64(27.13).unwrap() * adapted_abs / (T::from_f64(400.0).unwrap() - adapted_abs),
   );
-  adapted.signum()
-    * base.powf(T::from_f64(1.0).unwrap() / T::from_f64(0.42).unwrap())
+  adapted.signum() * base.powf(T::from_f64(1.0).unwrap() / T::from_f64(0.42).unwrap())
 }
 
 /// Finds a color with the given hue, chroma, and Y.
@@ -550,13 +540,9 @@ fn find_result_by_j(hue_radians: f64, chroma: f64, y: f64) -> u32 {
   // Operations inlined from Cam16 to avoid repeated calculation
   // ===========================================================
   let viewing_conditions = ViewingConditions::default();
-  let t_inner_coeff =
-    1.0 / f64::powf(1.64 - f64::powf(0.29, viewing_conditions.n()), 0.73);
+  let t_inner_coeff = 1.0 / f64::powf(1.64 - f64::powf(0.29, viewing_conditions.n()), 0.73);
   let e_hue = 0.25 * (f64::cos(hue_radians + 2.0) + 3.8);
-  let p1 = e_hue
-    * (50000.0 / 13.0)
-    * viewing_conditions.nc()
-    * viewing_conditions.ncb();
+  let p1 = e_hue * (50000.0 / 13.0) * viewing_conditions.nc() * viewing_conditions.ncb();
   let h_sin = hue_radians.sin();
   let h_cos = hue_radians.cos();
 
@@ -577,8 +563,7 @@ fn find_result_by_j(hue_radians: f64, chroma: f64, y: f64) -> u32 {
         1.0 / viewing_conditions.c() / viewing_conditions.z(),
       );
     let p2 = ac / viewing_conditions.nbb();
-    let gamma = 23.0 * (p2 + 0.305) * t
-      / (23.0 * p1 + 11.0 * t * h_cos + 108.0 * t * h_sin);
+    let gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11.0 * t * h_cos + 108.0 * t * h_sin);
     let a = gamma * h_cos;
     let b = gamma * h_sin;
     let r_a = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;

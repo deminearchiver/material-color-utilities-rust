@@ -13,6 +13,7 @@ documentation = "https://docs.rs/material-color-utilities"
 num-traits = "0.2"
 thiserror = "2"
 serde = { version = "1", features = ["derive"], optional = true }
+by_address = "1"
 
 [features]
 serde = ["dep:serde"]

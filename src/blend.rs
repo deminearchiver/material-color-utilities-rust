@@ -9,13 +9,11 @@ use crate::{
 pub fn harmonize(design_color: u32, source_color: u32) -> u32 {
   let from_hct = Hct::from_int(design_color);
   let to_hct = Hct::from_int(source_color);
-  let difference_degrees =
-    utils::math::difference_degrees(from_hct.hue(), to_hct.hue());
+  let difference_degrees = utils::math::difference_degrees(from_hct.hue(), to_hct.hue());
   let rotation_degrees = f64::min(difference_degrees * 0.5, 15.0);
   let output_hue = utils::math::sanitize_degrees(
     from_hct.hue()
-      + rotation_degrees
-        * utils::math::rotation_direction(from_hct.hue(), to_hct.hue()),
+      + rotation_degrees * utils::math::rotation_direction(from_hct.hue(), to_hct.hue()),
   );
   Hct::from(output_hue, from_hct.chroma(), from_hct.tone()).to_int()
 }

@@ -1,17 +1,17 @@
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use std::{cell::RefCell, collections::HashMap};
 
 use crate::hct::Hct;
 
 /// A convenience class for retrieving colors that are constant in hue and chroma, but vary in tone.
 ///
 /// TonalPalette is intended for use in a single thread due to its stateful caching.
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct TonalPalette {
   #[cfg_attr(feature = "serde", serde(skip_serializing, default))]
-  cache: HashMap<u8, u32>,
+  cache: RefCell<HashMap<u8, u32>>,
   hue: f64,
   chroma: f64,
   key_color: Hct,
@@ -20,7 +20,7 @@ pub struct TonalPalette {
 impl TonalPalette {
   fn new(hue: f64, chroma: f64, key_color: Hct) -> Self {
     Self {
-      cache: HashMap::default(),
+      cache: Default::default(),
       hue,
       chroma,
       key_color,
@@ -59,8 +59,8 @@ impl TonalPalette {
   }
 
   /// Create an ARGB color with HCT hue and chroma of this Tones instance, and the provided HCT tone.
-  pub fn tone(&mut self, tone: u8) -> u32 {
-    if let Some(color) = self.cache.get(&tone) {
+  pub fn tone(&self, tone: u8) -> u32 {
+    if let Some(color) = self.cache.borrow().get(&tone) {
       *color
     } else {
       let color = if tone == 99 && Hct::is_yellow(self.hue) {
@@ -68,7 +68,7 @@ impl TonalPalette {
       } else {
         Hct::from(self.hue, self.chroma, tone as f64).to_int()
       };
-      self.cache.insert(tone, color);
+      self.cache.borrow_mut().insert(tone, color);
       color
     }
   }
@@ -128,25 +128,17 @@ impl KeyColor {
     let mut upper_tone: u8 = 100;
     while lower_tone < upper_tone {
       let mid_tone = (lower_tone + upper_tone) / 2;
-      let is_ascending =
-        self.max_chroma(mid_tone) < self.max_chroma(mid_tone + tone_step_size);
-      let sufficient_chroma =
-        self.max_chroma(mid_tone) >= self.requested_chroma - epsilon;
+      let is_ascending = self.max_chroma(mid_tone) < self.max_chroma(mid_tone + tone_step_size);
+      let sufficient_chroma = self.max_chroma(mid_tone) >= self.requested_chroma - epsilon;
 
       if sufficient_chroma {
         // Either range [lowerTone, midTone] or [midTone, upperTone] has
         // the answer, so search in the range that is closer the pivot tone.
-        if u8::abs_diff(lower_tone, pivot_tone)
-          < u8::abs_diff(upper_tone, pivot_tone)
-        {
+        if u8::abs_diff(lower_tone, pivot_tone) < u8::abs_diff(upper_tone, pivot_tone) {
           upper_tone = mid_tone;
         } else {
           if lower_tone == mid_tone {
-            return Hct::from(
-              self.hue,
-              self.requested_chroma,
-              lower_tone as f64,
-            );
+            return Hct::from(self.hue, self.requested_chroma, lower_tone as f64);
           }
           lower_tone = mid_tone;
         }
@@ -167,9 +159,10 @@ impl KeyColor {
 
   /// Find the maximum chroma for a given tone
   fn max_chroma(&mut self, tone: u8) -> f64 {
-    *self.chroma_cache.entry(tone).or_insert_with_key(|tone| {
-      Hct::from(self.hue, Self::MAX_CHROMA_VALUE, *tone as f64).chroma()
-    })
+    *self
+      .chroma_cache
+      .entry(tone)
+      .or_insert_with_key(|tone| Hct::from(self.hue, Self::MAX_CHROMA_VALUE, *tone as f64).chroma())
   }
 }
 
@@ -179,7 +172,7 @@ mod tests {
 
   #[test]
   fn tonal_palette_of_blue() {
-    let mut blue = TonalPalette::from_int(0xff0000ff);
+    let blue = TonalPalette::from_int(0xff0000ff);
 
     assert_eq!(blue.tone(100), 0xffffffff);
     assert_eq!(blue.tone(95), 0xfff1efff);

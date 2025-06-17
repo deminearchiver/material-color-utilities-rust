@@ -48,11 +48,7 @@ impl Hct {
   }
 
   pub fn set_hue(&mut self, new_hue: f64) {
-    self.set_internal_state(hct_solver::solve_to_int(
-      new_hue,
-      self.chroma,
-      self.tone,
-    ));
+    self.set_internal_state(hct_solver::solve_to_int(new_hue, self.chroma, self.tone));
   }
 
   pub fn chroma(&self) -> f64 {
@@ -60,9 +56,7 @@ impl Hct {
   }
 
   pub fn set_chroma(&mut self, new_chroma: f64) {
-    self.set_internal_state(hct_solver::solve_to_int(
-      self.hue, new_chroma, self.tone,
-    ));
+    self.set_internal_state(hct_solver::solve_to_int(self.hue, new_chroma, self.tone));
   }
 
   pub fn tone(&self) -> f64 {
@@ -70,11 +64,7 @@ impl Hct {
   }
 
   pub fn set_tone(&mut self, new_tone: f64) {
-    self.set_internal_state(hct_solver::solve_to_int(
-      self.hue,
-      self.chroma,
-      new_tone,
-    ));
+    self.set_internal_state(hct_solver::solve_to_int(self.hue, self.chroma, new_tone));
   }
 
   pub fn to_int(&self) -> u32 {
@@ -169,14 +159,10 @@ mod tests {
     for r in (0..296).step_by(37) {
       for g in (0..296).step_by(37) {
         for b in (0..296).step_by(37) {
-          let argb = utils::color::argb_from_rgb(
-            r.min(255) as u8,
-            g.min(255) as u8,
-            b.min(255) as u8,
-          );
+          let argb =
+            utils::color::argb_from_rgb(r.min(255) as u8, g.min(255) as u8, b.min(255) as u8);
           let hct = Hct::from_int(argb);
-          let reconstructed =
-            Hct::from(hct.hue(), hct.chroma(), hct.tone()).to_int();
+          let reconstructed = Hct::from(hct.hue(), hct.chroma(), hct.tone()).to_int();
           assert_eq!(reconstructed, argb);
         }
       }

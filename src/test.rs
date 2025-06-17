@@ -12,8 +12,7 @@ where
     .unwrap()
     .powf(precision + T::from_f64(1.0).unwrap());
   let delta = (a - b).abs();
-  let max_delta =
-    T::from_f64(10.0).unwrap().powf(-precision) / T::from_f64(2.0).unwrap();
+  let max_delta = T::from_f64(10.0).unwrap().powf(-precision) / T::from_f64(2.0).unwrap();
   (delta * pow).round() <= max_delta * pow
 }
 

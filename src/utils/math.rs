@@ -35,8 +35,7 @@ pub fn difference_degrees<T>(a: T, b: T) -> T
 where
   T: Num + Signed + FromPrimitive,
 {
-  T::from_f64(180.0).unwrap()
-    - ((a - b).abs() - T::from_f64(180.0).unwrap()).abs()
+  T::from_f64(180.0).unwrap() - ((a - b).abs() - T::from_f64(180.0).unwrap()).abs()
 }
 
 pub fn matrix_multiply<T>(row: &[T; 3], matrix: &[[T; 3]; 3]) -> [T; 3]

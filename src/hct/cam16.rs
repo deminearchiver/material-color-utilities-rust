@@ -88,10 +88,7 @@ impl Cam16 {
   }
 
   /// Create a CAM16 color from a color in defined viewing conditions.
-  pub fn from_int_in_viewing_conditions(
-    argb: u32,
-    viewing_conditions: &ViewingConditions,
-  ) -> Self {
+  pub fn from_int_in_viewing_conditions(argb: u32, viewing_conditions: &ViewingConditions) -> Self {
     // Transform ARGB int to XYZ
     let red = ((argb & 0x00ff0000) >> 16) as u8;
     let green = ((argb & 0x0000ff00) >> 8) as u8;
@@ -169,20 +166,14 @@ impl Cam16 {
     // CAM16 chroma, colorfulness, and saturation.
     let hue_prime = if hue < 20.14 { hue + 360.0 } else { hue };
     let e_hue = 0.25 * ((hue_prime.to_radians() + 2.0).cos() + 3.8);
-    let p1 = 50000.0 / 13.0
-      * e_hue
-      * viewing_conditions.nc()
-      * viewing_conditions.ncb();
+    let p1 = 50000.0 / 13.0 * e_hue * viewing_conditions.nc() * viewing_conditions.ncb();
     let t = p1 * f64::hypot(a, b) / (u + 0.305);
-    let alpha =
-      (1.64 - 0.29_f64.powf(viewing_conditions.n())).powf(0.73) * t.powf(0.9);
+    let alpha = (1.64 - 0.29_f64.powf(viewing_conditions.n())).powf(0.73) * t.powf(0.9);
 
     // CAM16 chroma, colorfulness, saturation
     let c = alpha * (j / 100.0).sqrt();
     let m = c * viewing_conditions.fl_root();
-    let s = 50.0
-      * ((alpha * viewing_conditions.c()) / (viewing_conditions.aw() + 4.0))
-        .sqrt();
+    let s = 50.0 * ((alpha * viewing_conditions.c()) / (viewing_conditions.aw() + 4.0)).sqrt();
     // CAM16-UCS components
     let jstar = (1.0 + 100.0 * 0.007) * j / (1.0 + 0.007 * j);
     let mstar = 1.0 / 0.0228 * (0.0228 * m).ln_1p();
@@ -207,9 +198,7 @@ impl Cam16 {
       * viewing_conditions.fl_root();
     let m = c * viewing_conditions.fl_root();
     let alpha = c / (j / 100.0).sqrt();
-    let s = 50.0
-      * ((alpha * viewing_conditions.c()) / (viewing_conditions.aw() + 4.0))
-        .sqrt();
+    let s = 50.0 * ((alpha * viewing_conditions.c()) / (viewing_conditions.aw() + 4.0)).sqrt();
 
     let hue_radians = h.to_radians();
     let jstar = (1.0 + 100.0 * 0.007) * j / (1.0 + 0.007 * j);
@@ -221,12 +210,7 @@ impl Cam16 {
 
   /// Create a CAM16 color from CAM16-UCS coordinates.
   pub fn from_ucs(jstar: f64, astar: f64, bstar: f64) -> Self {
-    Self::from_ucs_in_viewing_conditions(
-      jstar,
-      astar,
-      bstar,
-      &ViewingConditions::default(),
-    )
+    Self::from_ucs_in_viewing_conditions(jstar, astar, bstar, &ViewingConditions::default())
   }
 
   /// Create a CAM16 color from CAM16-UCS coordinates in defined viewing conditions.
@@ -327,10 +311,7 @@ impl Cam16 {
     utils::color::argb_from_xyz(xyz[0], xyz[1], xyz[2])
   }
 
-  pub fn xyz_in_viewing_conditions(
-    &self,
-    viewing_conditions: &ViewingConditions,
-  ) -> [f64; 3] {
+  pub fn xyz_in_viewing_conditions(&self, viewing_conditions: &ViewingConditions) -> [f64; 3] {
     let alpha = if self.chroma() == 0.0 || self.j() == 0.0 {
       0.0
     } else {
@@ -349,17 +330,13 @@ impl Cam16 {
         self.j() / 100.0,
         1.0 / viewing_conditions.c() / viewing_conditions.z(),
       );
-    let p1 = e_hue
-      * (50000.0 / 13.0)
-      * viewing_conditions.nc()
-      * viewing_conditions.ncb();
+    let p1 = e_hue * (50000.0 / 13.0) * viewing_conditions.nc() * viewing_conditions.ncb();
     let p2 = ac / viewing_conditions.nbb();
 
     let h_sin = h_rad.sin();
     let h_cos = h_rad.cos();
 
-    let gamma = 23.0 * (p2 + 0.305) * t
-      / (23.0 * p1 + 11.0 * t * h_cos + 108.0 * t * h_sin);
+    let gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11.0 * t * h_cos + 108.0 * t * h_sin);
     let a = gamma * h_cos;
     let b = gamma * h_sin;
     let r_a = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
@@ -367,17 +344,11 @@ impl Cam16 {
     let b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
 
     let r_c_base = f64::max(0.0, (27.13 * r_a.abs()) / (400.0 - r_a.abs()));
-    let r_c = r_a.signum()
-      * (100.0 / viewing_conditions.fl())
-      * f64::powf(r_c_base, 1.0 / 0.42);
+    let r_c = r_a.signum() * (100.0 / viewing_conditions.fl()) * f64::powf(r_c_base, 1.0 / 0.42);
     let g_c_base = f64::max(0.0, (27.13 * g_a.abs()) / (400.0 - g_a.abs()));
-    let g_c = g_a.signum()
-      * (100.0 / viewing_conditions.fl())
-      * f64::powf(g_c_base, 1.0 / 0.42);
+    let g_c = g_a.signum() * (100.0 / viewing_conditions.fl()) * f64::powf(g_c_base, 1.0 / 0.42);
     let b_c_base = f64::max(0.0, (27.13 * b_a.abs()) / (400.0 - b_a.abs()));
-    let b_c = b_a.signum()
-      * (100.0 / viewing_conditions.fl())
-      * f64::powf(b_c_base, 1.0 / 0.42);
+    let b_c = b_a.signum() * (100.0 / viewing_conditions.fl()) * f64::powf(b_c_base, 1.0 / 0.42);
     let r_f = r_c / viewing_conditions.rgb_d()[0];
     let g_f = g_c / viewing_conditions.rgb_d()[1];
     let b_f = b_c / viewing_conditions.rgb_d()[2];

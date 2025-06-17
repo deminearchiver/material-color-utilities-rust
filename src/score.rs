@@ -56,10 +56,7 @@ pub fn score_with(
   for hct in colors_hct {
     let hue = utils::math::sanitize_degrees(hct.hue().round() as usize);
     let proportion = hue_excited_proportions[hue];
-    if filter
-      && (hct.chroma() < CUTOFF_CHROMA
-        || proportion <= CUTOFF_EXCITED_PROPORTION)
-    {
+    if filter && (hct.chroma() < CUTOFF_CHROMA || proportion <= CUTOFF_EXCITED_PROPORTION) {
       continue;
     }
 
@@ -88,8 +85,7 @@ pub fn score_with(
       let hct = &entry.hct;
       let mut has_duplicate_hue = false;
       for chosen_hct in chosen_colors.iter() {
-        if utils::math::difference_degrees(hct.hue(), chosen_hct.hue())
-          < difference_degrees as f64
+        if utils::math::difference_degrees(hct.hue(), chosen_hct.hue()) < difference_degrees as f64
         {
           has_duplicate_hue = true;
           break;
