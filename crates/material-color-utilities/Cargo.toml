@@ -1,0 +1,22 @@
+[package]
+name = "material-color-utilities"
+description = "Color libraries for Material You"
+version = "1.0.0-dev.12"
+edition.workspace = true
+license = "Apache-2.0"
+keywords = ["material", "color"]
+readme = "README.md"
+repository.workspace = true
+documentation = "https://docs.rs/material-color-utilities"
+
+[dependencies]
+num-traits = "0.2"
+thiserror = "2"
+serde = { version = "1", features = ["derive"], optional = true }
+by_address = "1"
+
+[features]
+serde = ["dep:serde"]
+
+[package.metadata.docs.rs]
+all-features = true

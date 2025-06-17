@@ -1,22 +1,7 @@
-[package]
-name = "material-color-utilities"
-description = "Color libraries for Material You"
-version = "1.0.0-dev.12"
-edition = "2024"
-license = "Apache-2.0"
-keywords = ["material", "color"]
-readme = "README.md"
+[workspace]
+resolver = "3"
+members = ["crates/material-color-utilities"]
+
+[workspace.package]
 repository = "https://github.com/deminearchiver/material-color-utilities-rust/"
-documentation = "https://docs.rs/material-color-utilities"
-
-[dependencies]
-num-traits = "0.2"
-thiserror = "2"
-serde = { version = "1", features = ["derive"], optional = true }
-by_address = "1"
-
-[features]
-serde = ["dep:serde"]
-
-[package.metadata.docs.rs]
-all-features = true
+edition = "2024"
