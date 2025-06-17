@@ -1,7 +1,7 @@
 [package]
 name = "material-color-utilities"
 description = "Color libraries for Material You"
-version = "1.0.0-dev.11"
+version = "1.0.0-dev.12"
 edition = "2024"
 license = "Apache-2.0"
 keywords = ["material", "color"]
