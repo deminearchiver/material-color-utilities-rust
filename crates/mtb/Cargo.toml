@@ -1,0 +1,20 @@
+[package]
+name = "mtb"
+version = "0.1.0"
+repository.workspace = true
+edition.workspace = true
+authors = ["deminearchiver"]
+
+[dependencies]
+material-color-utilities = { path = "../material-color-utilities" }
+clap = { version = "4.5.40", features = ["derive"] }
+convert_case = "0.8"
+csscolorparser = "0.7"
+heck = "0.5"
+# inquire = "0.7"
+dialoguer = { version = "0.11", features = [] }
+console = { version = "0.15", features = [] }
+indicatif = { version = "0.17", features = ["improved_unicode"] }
+thiserror = "2"
+serde = {version = "1", features = ["derive"]}
+serde_json = "1"

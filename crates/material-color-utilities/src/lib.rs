@@ -18,5 +18,5 @@ pub mod score;
 pub mod temperature_cache;
 pub mod utils;
 
-#[cfg(test)]
-pub(crate) mod test;
+// #[cfg(feature = "quantize")]
+// pub mod quantize;

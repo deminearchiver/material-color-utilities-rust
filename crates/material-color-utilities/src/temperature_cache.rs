@@ -336,7 +336,7 @@ impl TemperatureCache {
 #[cfg(test)]
 mod tests {
   use super::*;
-  use crate::test::*;
+  use crate::utils::test::*;
 
   #[test]
   fn computes_raw_temperatures_correctly() {

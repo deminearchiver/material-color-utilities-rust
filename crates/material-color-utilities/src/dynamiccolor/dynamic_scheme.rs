@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 use crate::{
-  dynamiccolor::{DynamicColor, Platform, SpecVersion, Variant},
+  dynamiccolor::{DynamicColor, MaterialDynamicColors, Platform, SpecVersion, Variant},
   hct::Hct,
   palettes::TonalPalette,
   utils,
@@ -134,6 +134,358 @@ impl DynamicScheme {
 
   pub fn get_argb<'a>(&'a self, dynamic_color: &'a DynamicColor<'a>) -> u32 {
     dynamic_color.get_argb(self)
+  }
+
+  pub fn primary_palette_key_color(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .primary_palette_key_color()
+      .get_argb(self)
+  }
+
+  pub fn secondary_palette_key_color(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .secondary_palette_key_color()
+      .get_argb(self)
+  }
+
+  pub fn tertiary_palette_key_color(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .tertiary_palette_key_color()
+      .get_argb(self)
+  }
+
+  pub fn neutral_palette_key_color(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .neutral_palette_key_color()
+      .get_argb(self)
+  }
+
+  pub fn neutral_variant_palette_key_color(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .neutral_variant_palette_key_color()
+      .get_argb(self)
+  }
+
+  pub fn error_palette_key_color(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .error_palette_key_color()
+      .get_argb(self)
+  }
+
+  pub fn background(&self) -> u32 {
+    MaterialDynamicColors::new().background().get_argb(self)
+  }
+
+  pub fn on_background(&self) -> u32 {
+    MaterialDynamicColors::new().on_background().get_argb(self)
+  }
+
+  pub fn surface(&self) -> u32 {
+    MaterialDynamicColors::new().surface().get_argb(self)
+  }
+
+  pub fn surface_dim(&self) -> u32 {
+    MaterialDynamicColors::new().surface_dim().get_argb(self)
+  }
+
+  pub fn surface_bright(&self) -> u32 {
+    MaterialDynamicColors::new().surface_bright().get_argb(self)
+  }
+
+  pub fn surface_container_lowest(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .surface_container_lowest()
+      .get_argb(self)
+  }
+
+  pub fn surface_container_low(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .surface_container_low()
+      .get_argb(self)
+  }
+
+  pub fn surface_container(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .surface_container()
+      .get_argb(self)
+  }
+
+  pub fn surface_container_high(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .surface_container_high()
+      .get_argb(self)
+  }
+
+  pub fn surface_container_highest(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .surface_container_highest()
+      .get_argb(self)
+  }
+
+  pub fn on_surface(&self) -> u32 {
+    MaterialDynamicColors::new().on_surface().get_argb(self)
+  }
+
+  pub fn surface_variant(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .surface_variant()
+      .get_argb(self)
+  }
+
+  pub fn on_surface_variant(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .on_surface_variant()
+      .get_argb(self)
+  }
+
+  pub fn inverse_surface(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .inverse_surface()
+      .get_argb(self)
+  }
+
+  pub fn inverse_on_surface(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .inverse_on_surface()
+      .get_argb(self)
+  }
+
+  pub fn outline(&self) -> u32 {
+    MaterialDynamicColors::new().outline().get_argb(self)
+  }
+
+  pub fn outline_variant(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .outline_variant()
+      .get_argb(self)
+  }
+
+  pub fn shadow(&self) -> u32 {
+    MaterialDynamicColors::new().shadow().get_argb(self)
+  }
+
+  pub fn scrim(&self) -> u32 {
+    MaterialDynamicColors::new().scrim().get_argb(self)
+  }
+
+  pub fn surface_tint(&self) -> u32 {
+    MaterialDynamicColors::new().surface_tint().get_argb(self)
+  }
+
+  pub fn primary(&self) -> u32 {
+    MaterialDynamicColors::new().primary().get_argb(self)
+  }
+
+  pub fn primary_dim(&self) -> u32 {
+    MaterialDynamicColors::new().primary_dim().get_argb(self)
+  }
+
+  pub fn on_primary(&self) -> u32 {
+    MaterialDynamicColors::new().on_primary().get_argb(self)
+  }
+
+  pub fn primary_container(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .primary_container()
+      .get_argb(self)
+  }
+
+  pub fn on_primary_container(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .on_primary_container()
+      .get_argb(self)
+  }
+
+  pub fn inverse_primary(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .inverse_primary()
+      .get_argb(self)
+  }
+
+  pub fn primary_fixed(&self) -> u32 {
+    MaterialDynamicColors::new().primary_fixed().get_argb(self)
+  }
+
+  pub fn primary_fixed_dim(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .primary_fixed_dim()
+      .get_argb(self)
+  }
+
+  pub fn on_primary_fixed(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .on_primary_fixed()
+      .get_argb(self)
+  }
+
+  pub fn on_primary_fixed_variant(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .on_primary_fixed_variant()
+      .get_argb(self)
+  }
+
+  pub fn secondary(&self) -> u32 {
+    MaterialDynamicColors::new().secondary().get_argb(self)
+  }
+
+  pub fn secondary_dim(&self) -> u32 {
+    MaterialDynamicColors::new().secondary_dim().get_argb(self)
+  }
+
+  pub fn on_secondary(&self) -> u32 {
+    MaterialDynamicColors::new().on_secondary().get_argb(self)
+  }
+
+  pub fn secondary_container(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .secondary_container()
+      .get_argb(self)
+  }
+
+  pub fn on_secondary_container(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .on_secondary_container()
+      .get_argb(self)
+  }
+
+  pub fn secondary_fixed(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .secondary_fixed()
+      .get_argb(self)
+  }
+
+  pub fn secondary_fixed_dim(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .secondary_fixed_dim()
+      .get_argb(self)
+  }
+
+  pub fn on_secondary_fixed(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .on_secondary_fixed()
+      .get_argb(self)
+  }
+
+  pub fn on_secondary_fixed_variant(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .on_secondary_fixed_variant()
+      .get_argb(self)
+  }
+
+  pub fn tertiary(&self) -> u32 {
+    MaterialDynamicColors::new().tertiary().get_argb(self)
+  }
+
+  pub fn tertiary_dim(&self) -> u32 {
+    MaterialDynamicColors::new().tertiary_dim().get_argb(self)
+  }
+
+  pub fn on_tertiary(&self) -> u32 {
+    MaterialDynamicColors::new().on_tertiary().get_argb(self)
+  }
+
+  pub fn tertiary_container(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .tertiary_container()
+      .get_argb(self)
+  }
+
+  pub fn on_tertiary_container(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .on_tertiary_container()
+      .get_argb(self)
+  }
+
+  pub fn tertiary_fixed(&self) -> u32 {
+    MaterialDynamicColors::new().tertiary_fixed().get_argb(self)
+  }
+
+  pub fn tertiary_fixed_dim(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .tertiary_fixed_dim()
+      .get_argb(self)
+  }
+
+  pub fn on_tertiary_fixed(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .on_tertiary_fixed()
+      .get_argb(self)
+  }
+
+  pub fn on_tertiary_fixed_variant(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .on_tertiary_fixed_variant()
+      .get_argb(self)
+  }
+
+  pub fn error(&self) -> u32 {
+    MaterialDynamicColors::new().error().get_argb(self)
+  }
+
+  pub fn error_dim(&self) -> u32 {
+    MaterialDynamicColors::new().error_dim().get_argb(self)
+  }
+
+  pub fn on_error(&self) -> u32 {
+    MaterialDynamicColors::new().on_error().get_argb(self)
+  }
+
+  pub fn error_container(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .error_container()
+      .get_argb(self)
+  }
+
+  pub fn on_error_container(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .on_error_container()
+      .get_argb(self)
+  }
+
+  pub fn control_activated(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .control_activated()
+      .get_argb(self)
+  }
+
+  pub fn control_normal(&self) -> u32 {
+    MaterialDynamicColors::new().control_normal().get_argb(self)
+  }
+
+  pub fn control_highlight(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .control_highlight()
+      .get_argb(self)
+  }
+
+  pub fn text_primary_inverse(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .text_primary_inverse()
+      .get_argb(self)
+  }
+
+  pub fn text_secondary_and_tertiary_inverse(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .text_secondary_and_tertiary_inverse()
+      .get_argb(self)
+  }
+
+  pub fn text_primary_inverse_disable_only(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .text_primary_inverse_disable_only()
+      .get_argb(self)
+  }
+
+  pub fn text_secondary_and_tertiary_inverse_disabled(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .text_secondary_and_tertiary_inverse_disabled()
+      .get_argb(self)
+  }
+
+  pub fn text_hint_inverse(&self) -> u32 {
+    MaterialDynamicColors::new()
+      .text_hint_inverse()
+      .get_argb(self)
   }
 }
 
@@ -305,7 +657,7 @@ impl DynamicSchemeBuilder {
     Self::default()
   }
 
-  pub fn source_color(mut self, source_color_hct: Hct) -> Self {
+  pub fn source_color_hct(mut self, source_color_hct: Hct) -> Self {
     self.source_color_hct = Some(source_color_hct);
     self
   }
@@ -500,7 +852,7 @@ impl DynamicSchemeBuilder {
 impl From<&DynamicScheme> for DynamicSchemeBuilder {
   fn from(value: &DynamicScheme) -> Self {
     Self::new()
-      .source_color(value.source_color_hct().clone())
+      .source_color_hct(value.source_color_hct().clone())
       .variant(*value.variant())
       .is_dark(value.is_dark())
       .platform(*value.platform())
@@ -518,7 +870,7 @@ impl From<&DynamicScheme> for DynamicSchemeBuilder {
 impl From<DynamicScheme> for DynamicSchemeBuilder {
   fn from(value: DynamicScheme) -> Self {
     Self::new()
-      .source_color(value.source_color_hct)
+      .source_color_hct(value.source_color_hct)
       .variant(value.variant)
       .is_dark(value.is_dark)
       .platform(value.platform)

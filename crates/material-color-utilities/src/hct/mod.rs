@@ -124,6 +124,12 @@ impl Hct {
   }
 }
 
+impl From<u32> for Hct {
+  fn from(argb: u32) -> Self {
+    Hct::from_int(argb)
+  }
+}
+
 impl Display for Hct {
   fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
     write!(

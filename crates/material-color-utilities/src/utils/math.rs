@@ -1,10 +1,11 @@
 use num_traits::{FromPrimitive, Num, Signed};
 
+#[inline]
 pub fn lerp<T>(start: T, stop: T, amount: T) -> T
 where
-  T: Num + Copy,
+  T: Num + FromPrimitive + Copy,
 {
-  (T::one() - amount) * start + amount * stop
+  (T::from_f64(1.0).unwrap() - amount) * start + amount * stop
 }
 
 pub fn sanitize_degrees<T>(mut degrees: T) -> T

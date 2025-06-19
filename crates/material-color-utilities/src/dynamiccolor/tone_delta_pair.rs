@@ -14,7 +14,7 @@ use crate::dynamiccolor::DynamicColor;
 /// and at least 10 darker than B in dark mode.
 ///
 /// See [ToneDeltaPair] for details.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum TonePolarity {
   Darker,
@@ -28,7 +28,7 @@ pub enum TonePolarity {
 }
 
 /// Describes how to fulfill a tone delta pair constraint.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum DeltaConstraint {
   Exact,

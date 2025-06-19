@@ -165,7 +165,7 @@ pub fn darker_unsafe(tone: f64, ratio: f64) -> f64 {
 #[cfg(test)]
 mod tests {
   use super::*;
-  use crate::test::*;
+  use crate::utils::test::*;
 
   #[test]
   fn ratio_of_tones_out_of_bounds_input() {

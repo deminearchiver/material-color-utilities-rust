@@ -22,6 +22,7 @@ const XYZ_TO_SRGB: [[f64; 3]; 3] = [
 
 const WHITE_POINT_D65: [f64; 3] = [95.047, 100.0, 108.883];
 
+#[inline]
 pub fn argb_from_rgb(red: u8, green: u8, blue: u8) -> u32 {
   (255 << 24) | ((red as u32 & 255) << 16) | ((green as u32 & 255) << 8) | (blue as u32 & 255)
 }
@@ -37,25 +38,30 @@ where
 }
 
 /// Returns the alpha component of a color in ARGB format.
+#[inline]
 pub const fn alpha_from_argb(argb: u32) -> u8 {
   ((argb >> 24) & 255) as u8
 }
 
 /// Returns the red component of a color in ARGB format.
+#[inline]
 pub const fn red_from_argb(argb: u32) -> u8 {
   ((argb >> 16) & 255) as u8
 }
 
 /// Returns the green component of a color in ARGB format.
+#[inline]
 pub const fn green_from_argb(argb: u32) -> u8 {
   ((argb >> 8) & 255) as u8
 }
 
 /// Returns the blue component of a color in ARGB format.
+#[inline]
 pub const fn blue_from_argb(argb: u32) -> u8 {
   (argb & 255) as u8
 }
 
+#[inline]
 pub fn is_opaque(argb: u32) -> bool {
   alpha_from_argb(argb) == 255
 }
@@ -211,6 +217,7 @@ where
     .unwrap()
 }
 
+#[inline]
 pub fn white_point_d65<T>() -> [T; 3]
 where
   T: Float + FromPrimitive,

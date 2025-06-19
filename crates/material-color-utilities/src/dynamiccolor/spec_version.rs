@@ -9,7 +9,7 @@ use crate::dynamiccolor::{
 };
 
 /// All available spec versions.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum SpecVersion {
   Spec2021,

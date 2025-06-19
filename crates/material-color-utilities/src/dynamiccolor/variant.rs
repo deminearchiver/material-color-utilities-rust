@@ -2,7 +2,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Themes for Dynamic Color.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum Variant {
   Monochrome,
