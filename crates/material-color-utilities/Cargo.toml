@@ -23,6 +23,7 @@ csscolorparser = "0.7"
 rand = { version = "0.9", features = [], optional = true }
 
 [features]
+default = []
 quantize = ["dep:rand"]
 serde = ["dep:serde"]
 

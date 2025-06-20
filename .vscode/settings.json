@@ -1,12 +1,7 @@
 {
   "rust-analyzer.cargo.features": "all",
-  "colorize.languages": [
-    "rust"
-  ],
-  "colorize.colorized_colors": [
-    "ARGB",
-    "RGB",
-  ],
+  "colorize.languages": ["rust"],
+  "colorize.colorized_colors": ["ARGB", "RGB"],
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
     "editor.formatOnSave": true,

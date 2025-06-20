@@ -14,9 +14,7 @@ pub mod dislike_analyzer;
 pub mod dynamiccolor;
 pub mod hct;
 pub mod palettes;
+// pub mod quantize;
 pub mod score;
 pub mod temperature_cache;
 pub mod utils;
-
-// #[cfg(feature = "quantize")]
-// pub mod quantize;
