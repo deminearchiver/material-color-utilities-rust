@@ -1,7 +1,7 @@
 {
-    "recommendations": [
-        "1yib.rust-bundle",
-        "fill-labs.dependi",
-        "kamikillerto.vscode-colorize"
-    ]
+  "recommendations": [
+    "fill-labs.dependi",
+    "kamikillerto.vscode-colorize",
+    "rust-lang.rust-analyzer",
+  ],
 }
