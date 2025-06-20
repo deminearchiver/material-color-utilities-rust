@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "name": "@material-color-utilities/wasm",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs"
+    }
+  },
+  "packageManager": "yarn@4.9.2",
+  "scripts": {
+    "wasm": "wasm-pack build ../../crates/material-color-utilities-wasm --target bundler --out-name index --out-dir ../../packages/material-color-utilities/src/wasm"
+  },
+  "dependencies": {
+    "@material/material-color-utilities": "git@github.com/deminearchiver/material-color-utilities-typescript.git"
+  },
+  "devDependencies": {
+    "@rollup/plugin-wasm": "^6.2.2",
+    "tsdown": "^0.12.8",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vite-plugin-wasm": "^3.4.1",
+    "vitest": "^3.2.4"
+  }
+}

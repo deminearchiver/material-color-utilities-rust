@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "@material-color-utilities/monorepo",
+  "packageManager": "yarn@4.9.2",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "2.0.0-beta.6",
+    "tsx": "^4.20.3"
+  }
+}
