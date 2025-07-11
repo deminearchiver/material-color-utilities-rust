@@ -14,6 +14,28 @@ use thiserror::Error;
 use crate::DefaultTemplate;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum PromptAction {
+  SourceColor,
+  CoreColors,
+  Variant,
+  Platform,
+  SpecVersion,
+  Export,
+}
+impl Display for PromptAction {
+  fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+    match *self {
+      PromptAction::SourceColor => write!(f, "Set source color"),
+      PromptAction::CoreColors => write!(f, "Set core colors"),
+      PromptAction::Variant => write!(f, "Set variant"),
+      PromptAction::Platform => write!(f, "Set platform"),
+      PromptAction::SpecVersion => write!(f, "Set color spec version"),
+      PromptAction::Export => write!(f, "Export"),
+    }
+  }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum PromptTemplate {
   Baseline,
   NowInAndroid,
@@ -37,6 +59,40 @@ impl From<PromptTemplate> for DefaultTemplate {
     match value {
       PromptTemplate::Baseline => Self::Baseline,
       PromptTemplate::NowInAndroid => Self::NowInAndroid,
+    }
+  }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum PromptColor {
+  Primary,
+  Secondary,
+  Tertiary,
+  Neutral,
+  NeutralVariant,
+  Error,
+}
+
+impl PromptColor {
+  pub const VALUES: [Self; 6] = [
+    Self::Primary,
+    Self::Secondary,
+    Self::Tertiary,
+    Self::Neutral,
+    Self::NeutralVariant,
+    Self::Error,
+  ];
+}
+
+impl Display for PromptColor {
+  fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+    match *self {
+      Self::Primary => write!(f, "Primary"),
+      Self::Secondary => write!(f, "Secondary"),
+      Self::Tertiary => write!(f, "Tertiary"),
+      Self::Neutral => write!(f, "Neutral"),
+      Self::NeutralVariant => write!(f, "Neutral variant"),
+      Self::Error => write!(f, "Error"),
     }
   }
 }

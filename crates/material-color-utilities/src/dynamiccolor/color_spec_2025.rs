@@ -576,7 +576,11 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone {
-          Self::contrast_curve(4.5)
+          if s.is_dark() {
+            Self::contrast_curve(6.0)
+          } else {
+            Self::contrast_curve(4.5)
+          }
         } else {
           Self::contrast_curve(7.0)
         }

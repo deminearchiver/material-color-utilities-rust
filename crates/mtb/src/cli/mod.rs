@@ -1,11 +1,14 @@
-use clap::{Parser, Subcommand, ValueEnum, arg};
+use clap::{Args, Parser, Subcommand, ValueEnum, arg};
 use console;
 use dialoguer::{self, Select, Sort, theme::ColorfulTheme};
 use indicatif;
-use material_color_utilities::dynamiccolor::{Platform, SpecVersion, Variant};
+use material_color_utilities::{
+  dynamiccolor::{Platform, SpecVersion, Variant},
+  utils::string::{ParseArgb, argb_from_css_color},
+};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, ValueEnum)]
-enum CliTemplate {
+pub enum CliTemplate {
   /// Standard color scheme in Material You.
   /// Aliases: 'b', 'base'.
   #[value(name = "baseline", aliases = ["b", "base"])]
@@ -18,7 +21,7 @@ enum CliTemplate {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, ValueEnum)]
-enum CliVariant {
+pub enum CliVariant {
   /// Monochrome.
   /// Aliases: 'm', 'mono'.
   #[value(name = "monochrome", aliases = ["m", "mono"])]
@@ -74,7 +77,7 @@ impl From<CliVariant> for Variant {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, ValueEnum)]
-enum CliPlatform {
+pub enum CliPlatform {
   /// Default platform used before the introduction of other platforms.
   /// Aliases: 'p'.
   #[value(name = "phone", aliases = ["p"])]
@@ -96,7 +99,7 @@ impl From<CliPlatform> for Platform {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, ValueEnum)]
-enum CliSpec {
+pub enum CliSpecVersion {
   /// Palettes, colors generation and color roles spec
   /// introduced in 2021 with Material 3 Baseline.
   /// Aliases: '21'.
@@ -109,11 +112,11 @@ enum CliSpec {
   Spec2025,
 }
 
-impl From<CliSpec> for SpecVersion {
-  fn from(value: CliSpec) -> Self {
+impl From<CliSpecVersion> for SpecVersion {
+  fn from(value: CliSpecVersion) -> Self {
     match value {
-      CliSpec::Spec2021 => Self::Spec2021,
-      CliSpec::Spec2025 => Self::Spec2025,
+      CliSpecVersion::Spec2021 => Self::Spec2021,
+      CliSpecVersion::Spec2025 => Self::Spec2025,
     }
   }
 }
@@ -129,8 +132,6 @@ enum CliFormat {
 #[command(about = "Does awesome things", long_about = None)]
 #[command(propagate_version = true)]
 pub struct Cli {
-  #[command(subcommand)]
-  command: Option<Commands>,
   /// Provide an optional template to use
   #[arg(short, long, value_enum)]
   template: Option<CliTemplate>,
@@ -145,15 +146,43 @@ pub struct Cli {
 
   /// Provide an optional spec version to use
   #[arg(short, long, value_enum)]
-  spec: Option<CliSpec>,
+  spec: Option<CliSpecVersion>,
+
+  /// Seed color for dynamic
+  #[arg(long, value_parser = argb)]
+  source_color: Option<u32>,
+
+  #[command(flatten)]
+  core_colors: CliCoreColors,
 }
 
-#[derive(Debug, Subcommand)]
-enum Commands {
-  // /// Does testing things
-  // Test {
-  //   /// Lists test values
-  //   #[arg(short, long)]
-  //   list: bool,
-  // },
+impl Cli {
+  pub fn template(&self) -> Option<&CliTemplate> {
+    self.template.as_ref()
+  }
+
+  pub fn variant(&self) -> Option<&CliVariant> {
+    self.variant.as_ref()
+  }
+
+  pub fn platform(&self) -> Option<&CliPlatform> {
+    self.platform.as_ref()
+  }
+
+  pub fn spec_version(&self) -> Option<&CliSpecVersion> {
+    self.spec.as_ref()
+  }
+}
+
+#[derive(Debug, Args)]
+#[group()]
+pub struct CliCoreColors {
+  #[arg(long, value_parser = argb)]
+  primary: Option<u32>,
+}
+
+fn argb(s: &str) -> Result<u32, String> {
+  csscolorparser::parse(s)
+    .map(ParseArgb::parse_argb)
+    .map_err(|err| err.to_string())
 }

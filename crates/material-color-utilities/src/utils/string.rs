@@ -68,17 +68,14 @@ impl TryParseArgb for &str {
   type Error = ParseColorError;
 
   fn try_parse_argb(self) -> Result<u32, Self::Error> {
-    self.parse::<Color>()?.try_parse_argb()
+    self.parse::<Color>().map(ParseArgb::parse_argb)
   }
 }
 
-impl TryParseArgb for Color {
-  type Error = ParseColorError;
-
-  fn try_parse_argb(self) -> Result<u32, Self::Error> {
+impl ParseArgb for Color {
+  fn parse_argb(self) -> u32 {
     let [r, g, b, a] = self.to_rgba8();
-    let argb = ((a as u32) << 24) | ((r as u32) << 16) | ((g as u32) << 8) | (b as u32);
-    Ok(argb)
+    ((a as u32) << 24) | ((r as u32) << 16) | ((g as u32) << 8) | (b as u32)
   }
 }
 
@@ -91,6 +88,7 @@ pub trait TryFromArgb: Sized {
 
   fn try_from_argb(argb: u32) -> Result<Self, Self::Error>;
 }
+
 impl<T> TryFromArgb for T
 where
   T: FromArgb,
