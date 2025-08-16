@@ -1,3 +1,5 @@
+#![allow(clippy::type_complexity)]
+
 use std::{
   cell::{RefCell, RefMut},
   collections::HashMap,
@@ -14,21 +16,19 @@ use crate::{
   palettes::TonalPalette,
 };
 
-type RcRefCell<T> = Rc<RefCell<T>>;
-
 pub struct DynamicColor<'a> {
   name: String,
   palette: Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> &'a TonalPalette + 'a>>,
   tone: Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> f64 + 'a>>,
   is_background: bool,
-  chroma_multiplier: Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> f64 + 'a>>,
-  background: Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> Option<DynamicColor<'a>> + 'a>>,
+  chroma_multiplier: Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> f64 + 'a>>>,
+  background: Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<DynamicColor<'a>> + 'a>>>,
   second_background:
-    Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> Option<DynamicColor<'a>> + 'a>>,
-  contrast_curve: Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> Option<ContrastCurve> + 'a>>,
+    Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<DynamicColor<'a>> + 'a>>>,
+  contrast_curve: Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<ContrastCurve> + 'a>>>,
   tone_delta_pair:
-    Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> Option<ToneDeltaPair<'a>> + 'a>>,
-  opacity: Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> Option<f64> + 'a>>,
+    Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<ToneDeltaPair<'a>> + 'a>>>,
+  opacity: Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<f64> + 'a>>>,
   hct_cache: RefCell<HashMap<ByAddress<&'a DynamicScheme>, Hct>>,
 }
 
@@ -254,17 +254,17 @@ impl<'a> TryFrom<DynamicColorBuilder<'a>> for DynamicColor<'a> {
 #[derive(Default)]
 pub struct DynamicColorBuilder<'a> {
   name: Option<String>,
-  palette: Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> &'a TonalPalette + 'a>>,
-  tone: Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> f64 + 'a>>,
+  palette: Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> &'a TonalPalette + 'a>>>,
+  tone: Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> f64 + 'a>>>,
   is_background: Option<bool>,
-  chroma_multiplier: Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> f64 + 'a>>,
-  background: Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> Option<DynamicColor<'a>> + 'a>>,
+  chroma_multiplier: Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> f64 + 'a>>>,
+  background: Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<DynamicColor<'a>> + 'a>>>,
   second_background:
-    Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> Option<DynamicColor<'a>> + 'a>>,
-  contrast_curve: Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> Option<ContrastCurve> + 'a>>,
+    Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<DynamicColor<'a>> + 'a>>>,
+  contrast_curve: Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<ContrastCurve> + 'a>>>,
   tone_delta_pair:
-    Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> Option<ToneDeltaPair<'a>> + 'a>>,
-  opacity: Option<RcRefCell<dyn FnMut(&'a DynamicScheme) -> Option<f64> + 'a>>,
+    Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<ToneDeltaPair<'a>> + 'a>>>,
+  opacity: Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<f64> + 'a>>>,
 }
 
 impl<'a> DynamicColorBuilder<'a> {
