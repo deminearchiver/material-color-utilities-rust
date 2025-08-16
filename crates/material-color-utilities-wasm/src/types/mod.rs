@@ -122,7 +122,8 @@ impl From<DynamicSchemeSpecVersion> for SpecVersion {
 #[serde(rename_all = "camelCase")]
 #[tsify(into_wasm_abi, from_wasm_abi)]
 pub struct DynamicSchemeOptions {
-  is_dark: bool,
+  #[tsify(optional)]
+  is_dark: Option<bool>,
   #[tsify(optional)]
   variant: Option<DynamicSchemeVariant>,
   #[tsify(optional)]
@@ -133,7 +134,10 @@ pub struct DynamicSchemeOptions {
 
 impl From<DynamicSchemeOptions> for DynamicSchemeBuilder {
   fn from(options: DynamicSchemeOptions) -> Self {
-    let mut builder = DynamicSchemeBuilder::new().is_dark(options.is_dark);
+    let mut builder = DynamicSchemeBuilder::default();
+    if let Some(is_dark) = options.is_dark {
+      builder = builder.is_dark(is_dark);
+    }
     if let Some(variant) = options.variant {
       builder = builder.variant(variant.into());
     }
@@ -149,7 +153,7 @@ impl From<DynamicSchemeOptions> for DynamicSchemeBuilder {
 
 impl From<DynamicSchemeOptions> for DynamicScheme {
   fn from(options: DynamicSchemeOptions) -> Self {
-    DynamicSchemeBuilder::from(options).build().unwrap()
+    DynamicSchemeBuilder::from(options).build()
   }
 }
 

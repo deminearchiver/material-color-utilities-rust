@@ -1,15 +1,11 @@
-use std::{collections::HashMap, hash::Hash};
+use std::collections::HashMap;
 
 use material_color_utilities::{
-  dynamiccolor::{DynamicColorBuilder, DynamicScheme, DynamicSchemeBuilder},
+  dynamiccolor::{DynamicScheme, DynamicSchemeBuilder},
   palettes::TonalPalette,
-  utils::string::{argb_from_css_hex, css_hex_from_argb},
+  utils::string::css_hex_from_argb,
 };
-use serde::{
-  Deserialize, Serialize,
-  de::Visitor,
-  ser::{SerializeMap, SerializeStruct},
-};
+use serde::{Serialize, ser::SerializeMap};
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -227,25 +223,22 @@ pub struct Schemes {
   dark_high_contrast: Scheme,
 }
 
-impl TryFrom<&DynamicSchemeBuilder> for Schemes {
-  type Error = String;
-
-  fn try_from(builder: &DynamicSchemeBuilder) -> Result<Self, Self::Error> {
+impl From<&DynamicSchemeBuilder> for Schemes {
+  fn from(builder: &DynamicSchemeBuilder) -> Self {
     let light = builder.clone().is_dark(false).contrast_level(0.0);
     let light_medium_contrast = light.clone().contrast_level(0.5);
     let light_high_contrast = light.clone().contrast_level(1.0);
     let dark = light.clone().is_dark(true);
     let dark_medium_contrast = dark.clone().contrast_level(0.5);
     let dark_high_contrast = dark.clone().contrast_level(1.0);
-    let schemes = Self {
-      light: light.try_into()?,
-      light_medium_contrast: light_medium_contrast.try_into()?,
-      light_high_contrast: light_high_contrast.try_into()?,
-      dark: dark.try_into()?,
-      dark_medium_contrast: dark_medium_contrast.try_into()?,
-      dark_high_contrast: dark_high_contrast.try_into()?,
-    };
-    Ok(schemes)
+    Self {
+      light: light.into(),
+      light_medium_contrast: light_medium_contrast.into(),
+      light_high_contrast: light_high_contrast.into(),
+      dark: dark.into(),
+      dark_medium_contrast: dark_medium_contrast.into(),
+      dark_high_contrast: dark_high_contrast.into(),
+    }
   }
 }
 
@@ -396,12 +389,9 @@ impl From<&DynamicScheme> for Scheme {
   }
 }
 
-impl TryFrom<DynamicSchemeBuilder> for Scheme {
-  type Error = String;
-
-  fn try_from(builder: DynamicSchemeBuilder) -> Result<Self, Self::Error> {
-    let scheme = builder.build()?;
-    Ok(Scheme::from(&scheme))
+impl From<DynamicSchemeBuilder> for Scheme {
+  fn from(builder: DynamicSchemeBuilder) -> Self {
+    Scheme::from(&builder.build())
   }
 }
 
@@ -494,7 +484,7 @@ mod tests {
 
   #[test]
   fn test() {
-    let scheme = DynamicSchemeBuilder::new().is_dark(false).build().unwrap();
+    let scheme = DynamicSchemeBuilder::default().is_dark(false).build();
     let palette: Palette = scheme.primary_palette().into();
     println!("{}", serde_json::to_string_pretty(&palette).unwrap());
   }

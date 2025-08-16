@@ -56,25 +56,22 @@ pub struct Schemes {
   dark_high_contrast: Scheme,
 }
 
-impl TryFrom<&DynamicSchemeBuilder> for Schemes {
-  type Error = ();
-
-  fn try_from(builder: &DynamicSchemeBuilder) -> Result<Self, Self::Error> {
+impl From<&DynamicSchemeBuilder> for Schemes {
+  fn from(builder: &DynamicSchemeBuilder) -> Self {
     let light = builder.clone().is_dark(false).contrast_level(0.0);
     let light_medium_contrast = light.clone().contrast_level(0.5);
     let light_high_contrast = light.clone().contrast_level(1.0);
     let dark = light.clone().is_dark(true);
     let dark_medium_contrast = dark.clone().contrast_level(0.5);
     let dark_high_contrast = dark.clone().contrast_level(1.0);
-    let schemes = Self {
-      light: light.try_into()?,
-      light_medium_contrast: light_medium_contrast.try_into()?,
-      light_high_contrast: light_high_contrast.try_into()?,
-      dark: dark.try_into()?,
-      dark_medium_contrast: dark_medium_contrast.try_into()?,
-      dark_high_contrast: dark_high_contrast.try_into()?,
-    };
-    Ok(schemes)
+    Self {
+      light: light.into(),
+      light_medium_contrast: light_medium_contrast.into(),
+      light_high_contrast: light_high_contrast.into(),
+      dark: dark.into(),
+      dark_medium_contrast: dark_medium_contrast.into(),
+      dark_high_contrast: dark_high_contrast.into(),
+    }
   }
 }
 
@@ -232,14 +229,9 @@ impl From<&DynamicScheme> for Scheme {
   }
 }
 
-impl TryFrom<DynamicSchemeBuilder> for Scheme {
-  type Error = ();
-
-  fn try_from(value: DynamicSchemeBuilder) -> Result<Self, Self::Error> {
-    value
-      .build()
-      .map(|scheme| Self::from(&scheme))
-      .map_err(|_| ())
+impl From<DynamicSchemeBuilder> for Scheme {
+  fn from(value: DynamicSchemeBuilder) -> Self {
+    Self::from(&value.build())
   }
 }
 
@@ -273,14 +265,9 @@ impl From<&DynamicScheme> for Palettes {
   }
 }
 
-impl TryFrom<DynamicSchemeBuilder> for Palettes {
-  type Error = ();
-
-  fn try_from(value: DynamicSchemeBuilder) -> Result<Self, Self::Error> {
-    value
-      .build()
-      .map(|scheme| Self::from(&scheme))
-      .map_err(|_| ())
+impl From<DynamicSchemeBuilder> for Palettes {
+  fn from(value: DynamicSchemeBuilder) -> Self {
+    Self::from(&value.build())
   }
 }
 
@@ -340,7 +327,6 @@ mod tests {
   use material_color_utilities::{
     dynamiccolor::{DynamicSchemeBuilder, Platform, SpecVersion, Variant},
     hct::Hct,
-    utils::string::ParseArgb,
   };
 
   use super::*;
@@ -348,7 +334,7 @@ mod tests {
   #[test]
   fn test() {
     let argb = 0xFFFF0000;
-    let builder = DynamicSchemeBuilder::new()
+    let builder = DynamicSchemeBuilder::default()
       .is_dark(false)
       .source_color_hct(Hct::from_int(argb))
       .variant(Variant::Vibrant)

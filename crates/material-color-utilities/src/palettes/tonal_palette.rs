@@ -1,6 +1,7 @@
+use ordered_float::NotNan;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
-use std::{cell::RefCell, collections::HashMap};
+use std::{cell::RefCell, collections::HashMap, hash::Hash};
 
 use crate::hct::Hct;
 
@@ -12,8 +13,8 @@ use crate::hct::Hct;
 pub struct TonalPalette {
   #[cfg_attr(feature = "serde", serde(skip_serializing, default))]
   cache: RefCell<HashMap<u8, u32>>,
-  hue: f64,
-  chroma: f64,
+  hue: NotNan<f64>,
+  chroma: NotNan<f64>,
   key_color: Hct,
 }
 
@@ -21,8 +22,8 @@ impl TonalPalette {
   fn new(hue: f64, chroma: f64, key_color: Hct) -> Self {
     Self {
       cache: Default::default(),
-      hue,
-      chroma,
+      hue: hue.try_into().unwrap(),
+      chroma: chroma.try_into().unwrap(),
       key_color,
     }
   }
@@ -45,12 +46,12 @@ impl TonalPalette {
 
   /// The hue of the Tonal Palette, in HCT. Ranges from 0 to 360.
   pub fn hue(&self) -> f64 {
-    self.hue
+    *self.hue
   }
 
   /// The chroma of the Tonal Palette, in HCT. Ranges from 0 to ~130 (for sRGB gamut).
   pub fn chroma(&self) -> f64 {
-    self.chroma
+    *self.chroma
   }
 
   /// The key color is the first tone, starting from T50, that matches the palette's chroma.
@@ -63,10 +64,10 @@ impl TonalPalette {
     if let Some(color) = self.cache.borrow().get(&tone) {
       *color
     } else {
-      let color = if tone == 99 && Hct::is_yellow(self.hue) {
+      let color = if tone == 99 && Hct::is_yellow(self.hue()) {
         Self::average_argb(self.tone(98), self.tone(100))
       } else {
-        Hct::from(self.hue, self.chroma, tone as f64).to_int()
+        Hct::from(self.hue(), self.chroma(), tone as f64).to_int()
       };
       self.cache.borrow_mut().insert(tone, color);
       color
@@ -75,7 +76,7 @@ impl TonalPalette {
 
   /// Given a tone, use hue and chroma of palette to create a color, and return it as HCT.
   pub fn hct(&self, tone: f64) -> Hct {
-    Hct::from(self.hue, self.chroma, tone)
+    Hct::from(self.hue(), self.chroma(), tone)
   }
 
   fn average_argb(argb1: u32, argb2: u32) -> u32 {
@@ -89,6 +90,16 @@ impl TonalPalette {
     let green = ((green1 + green2) as f64 / 2.0).round() as u32;
     let blue = ((blue1 + blue2) as f64 / 2.0).round() as u32;
     255 << 24 | (red & 255) << 16 | (green & 255) << 8 | (blue & 255)
+  }
+}
+
+impl Eq for TonalPalette {}
+
+impl Hash for TonalPalette {
+  fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    self.hue.hash(state);
+    self.chroma.hash(state);
+    self.key_color.hash(state);
   }
 }
 

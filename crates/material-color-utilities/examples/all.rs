@@ -155,7 +155,7 @@ fn main() {
         let platform = platform_and_spec_version.platform();
         let spec_version = platform_and_spec_version.spec_version();
 
-        let mut builder = DynamicSchemeBuilder::new()
+        let mut builder = DynamicSchemeBuilder::default()
           .source_color_hct(template.source_color().into())
           .variant(variant)
           .platform(platform)
@@ -324,42 +324,12 @@ impl From<&DynamicScheme> for FigmaSchemes {
 
 impl From<&DynamicSchemeBuilder> for FigmaSchemes {
   fn from(builder: &DynamicSchemeBuilder) -> Self {
-    let light = builder
-      .clone()
-      .is_dark(false)
-      .contrast_level(0.0)
-      .build()
-      .unwrap();
-    let light_medium_contrast = builder
-      .clone()
-      .is_dark(false)
-      .contrast_level(0.5)
-      .build()
-      .unwrap();
-    let light_high_contrast = builder
-      .clone()
-      .is_dark(false)
-      .contrast_level(1.0)
-      .build()
-      .unwrap();
-    let dark = builder
-      .clone()
-      .is_dark(true)
-      .contrast_level(0.0)
-      .build()
-      .unwrap();
-    let dark_medium_contrast = builder
-      .clone()
-      .is_dark(true)
-      .contrast_level(0.5)
-      .build()
-      .unwrap();
-    let dark_high_contrast = builder
-      .clone()
-      .is_dark(true)
-      .contrast_level(1.0)
-      .build()
-      .unwrap();
+    let light = builder.clone().is_dark(false).contrast_level(0.0).build();
+    let light_medium_contrast = builder.clone().is_dark(false).contrast_level(0.5).build();
+    let light_high_contrast = builder.clone().is_dark(false).contrast_level(1.0).build();
+    let dark = builder.clone().is_dark(true).contrast_level(0.0).build();
+    let dark_medium_contrast = builder.clone().is_dark(true).contrast_level(0.5).build();
+    let dark_high_contrast = builder.clone().is_dark(true).contrast_level(1.0).build();
     Self {
       light: FigmaScheme::from(&light),
       light_medium_contrast: FigmaScheme::from(&light_medium_contrast),

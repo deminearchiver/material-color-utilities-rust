@@ -1660,8 +1660,7 @@ impl ColorSpec for ColorSpec2025 {
         let temp_s = DynamicSchemeBuilder::from(s)
           .is_dark(false)
           .contrast_level(0.0)
-          .build()
-          .unwrap();
+          .build();
         self.primary_container().get_tone(&temp_s)
       })
       .is_background(true)
@@ -1760,8 +1759,7 @@ impl ColorSpec for ColorSpec2025 {
         let temp_s = DynamicSchemeBuilder::from(s)
           .is_dark(false)
           .contrast_level(0.0)
-          .build()
-          .unwrap();
+          .build();
         self.secondary_container().get_tone(&temp_s)
       })
       .is_background(true)
@@ -1860,8 +1858,7 @@ impl ColorSpec for ColorSpec2025 {
         let temp_s = DynamicSchemeBuilder::from(s)
           .is_dark(false)
           .contrast_level(0.0)
-          .build()
-          .unwrap();
+          .build();
         self.tertiary_container().get_tone(&temp_s)
       })
       .is_background(true)

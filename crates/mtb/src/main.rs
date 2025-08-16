@@ -173,14 +173,13 @@ fn main() {
   //     .unwrap();
   // }
 
-  let scheme = DynamicSchemeBuilder::new()
+  let scheme = DynamicSchemeBuilder::default()
     .is_dark(false)
     .variant(Variant::Expressive)
     .platform(Platform::Phone)
     .contrast_level(0.0)
     .spec_version(SpecVersion::Spec2025)
-    .build()
-    .unwrap();
+    .build();
 
   // let template = prompt_template(&theme);
 

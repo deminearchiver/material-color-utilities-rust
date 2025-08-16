@@ -7,8 +7,6 @@ use std::{
   rc::Rc,
 };
 
-use by_address::ByAddress;
-
 use crate::{
   contrast,
   dynamiccolor::{ContrastCurve, DynamicScheme, SpecVersion, ToneDeltaPair},
@@ -29,7 +27,7 @@ pub struct DynamicColor<'a> {
   tone_delta_pair:
     Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<ToneDeltaPair<'a>> + 'a>>>,
   opacity: Option<Rc<RefCell<dyn FnMut(&'a DynamicScheme) -> Option<f64> + 'a>>>,
-  hct_cache: RefCell<HashMap<ByAddress<&'a DynamicScheme>, Hct>>,
+  hct_cache: RefCell<HashMap<&'a DynamicScheme, Hct>>,
 }
 
 impl<'a> DynamicColor<'a> {
@@ -128,7 +126,7 @@ impl<'a> DynamicColor<'a> {
   }
 
   pub fn get_hct(&self, scheme: &'a DynamicScheme) -> Hct {
-    if !self.hct_cache.borrow().contains_key(&ByAddress(scheme)) {
+    if !self.hct_cache.borrow().contains_key(scheme) {
       let answer = scheme
         .spec_version()
         .color_calculation_spec()
@@ -136,17 +134,9 @@ impl<'a> DynamicColor<'a> {
       if self.hct_cache.borrow().len() > 4 {
         self.hct_cache.borrow_mut().clear();
       }
-      self
-        .hct_cache
-        .borrow_mut()
-        .insert(ByAddress(scheme), answer);
+      self.hct_cache.borrow_mut().insert(scheme, answer);
     }
-    self
-      .hct_cache
-      .borrow()
-      .get(&ByAddress(scheme))
-      .unwrap()
-      .clone()
+    self.hct_cache.borrow().get(scheme).unwrap().clone()
   }
 
   pub fn get_argb(&self, scheme: &'a DynamicScheme) -> u32 {
