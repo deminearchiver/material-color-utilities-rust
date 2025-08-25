@@ -143,6 +143,13 @@ impl ColorSpec for ColorSpec2025 {
     // Remapped to on_surface for 2025 spec.
     let color2025 = DynamicColorBuilder::from(self.on_surface())
       .name("on_background")
+      .tone(|s| {
+        if s.platform() == &Platform::Watch {
+          100.0
+        } else {
+          self.on_surface().get_tone(s)
+        }
+      })
       .build()
       .unwrap();
     DynamicColorBuilder::from(SPEC_2021.on_background())

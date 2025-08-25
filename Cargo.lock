@@ -376,6 +376,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "indoc"
+version = "2.0.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f4c7245a08504955605670dbf141fceab975f15ca21570696aebe9d2e71576bd"
+
+[[package]]
 name = "is_terminal_polyfill"
 version = "1.70.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -420,8 +426,10 @@ name = "material-color-utilities"
 version = "1.0.0-dev.15"
 dependencies = [
  "by_address",
+ "convert_case",
  "csscolorparser",
  "indicatif 0.18.0",
+ "indoc",
  "num-traits",
  "ordered-float",
  "rand 0.9.2",

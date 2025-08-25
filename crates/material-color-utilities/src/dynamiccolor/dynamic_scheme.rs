@@ -28,7 +28,7 @@ pub struct DynamicScheme {
 }
 
 impl DynamicScheme {
-  const DYNAMIC_COLORS: MaterialDynamicColors = MaterialDynamicColors::new();
+  const DYNAMIC_COLORS: MaterialDynamicColors = MaterialDynamicColors;
 
   pub const fn default_spec_version() -> SpecVersion {
     SpecVersion::Spec2021

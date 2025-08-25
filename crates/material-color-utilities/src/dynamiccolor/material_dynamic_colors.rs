@@ -1,18 +1,18 @@
+use std::marker::PhantomData;
+
 use crate::dynamiccolor::{ColorSpec, ColorSpec2025, DynamicColor, DynamicScheme};
 
-pub struct MaterialDynamicColors {
-  color_spec: ColorSpec2025,
-}
+pub struct MaterialDynamicColors;
 
 impl MaterialDynamicColors {
+  const COLOR_SPEC: ColorSpec2025 = ColorSpec2025::new();
+
   pub const fn new() -> Self {
-    Self {
-      color_spec: ColorSpec2025::new(),
-    }
+    Self
   }
 
   pub fn highest_surface(&self, s: &DynamicScheme) -> DynamicColor {
-    self.color_spec.highest_surface(s)
+    Self::COLOR_SPEC.highest_surface(s)
   }
 
   ////////////////////////////////////////////////////////////////
@@ -20,27 +20,27 @@ impl MaterialDynamicColors {
   ////////////////////////////////////////////////////////////////
 
   pub fn primary_palette_key_color(&self) -> DynamicColor {
-    self.color_spec.primary_palette_key_color()
+    Self::COLOR_SPEC.primary_palette_key_color()
   }
 
   pub fn secondary_palette_key_color(&self) -> DynamicColor {
-    self.color_spec.secondary_palette_key_color()
+    Self::COLOR_SPEC.secondary_palette_key_color()
   }
 
   pub fn tertiary_palette_key_color(&self) -> DynamicColor {
-    self.color_spec.tertiary_palette_key_color()
+    Self::COLOR_SPEC.tertiary_palette_key_color()
   }
 
   pub fn neutral_palette_key_color(&self) -> DynamicColor {
-    self.color_spec.neutral_palette_key_color()
+    Self::COLOR_SPEC.neutral_palette_key_color()
   }
 
   pub fn neutral_variant_palette_key_color(&self) -> DynamicColor {
-    self.color_spec.neutral_variant_palette_key_color()
+    Self::COLOR_SPEC.neutral_variant_palette_key_color()
   }
 
   pub fn error_palette_key_color(&self) -> DynamicColor {
-    self.color_spec.error_palette_key_color()
+    Self::COLOR_SPEC.error_palette_key_color()
   }
 
   ////////////////////////////////////////////////////////////////
@@ -48,83 +48,83 @@ impl MaterialDynamicColors {
   ////////////////////////////////////////////////////////////////
 
   pub fn background(&self) -> DynamicColor {
-    self.color_spec.background()
+    Self::COLOR_SPEC.background()
   }
 
   pub fn on_background(&self) -> DynamicColor {
-    self.color_spec.on_background()
+    Self::COLOR_SPEC.on_background()
   }
 
   pub fn surface(&self) -> DynamicColor {
-    self.color_spec.surface()
+    Self::COLOR_SPEC.surface()
   }
 
   pub fn surface_dim(&self) -> DynamicColor {
-    self.color_spec.surface_dim()
+    Self::COLOR_SPEC.surface_dim()
   }
 
   pub fn surface_bright(&self) -> DynamicColor {
-    self.color_spec.surface_bright()
+    Self::COLOR_SPEC.surface_bright()
   }
 
   pub fn surface_container_lowest(&self) -> DynamicColor {
-    self.color_spec.surface_container_lowest()
+    Self::COLOR_SPEC.surface_container_lowest()
   }
 
   pub fn surface_container_low(&self) -> DynamicColor {
-    self.color_spec.surface_container_low()
+    Self::COLOR_SPEC.surface_container_low()
   }
 
   pub fn surface_container(&self) -> DynamicColor {
-    self.color_spec.surface_container()
+    Self::COLOR_SPEC.surface_container()
   }
 
   pub fn surface_container_high(&self) -> DynamicColor {
-    self.color_spec.surface_container_high()
+    Self::COLOR_SPEC.surface_container_high()
   }
 
   pub fn surface_container_highest(&self) -> DynamicColor {
-    self.color_spec.surface_container_highest()
+    Self::COLOR_SPEC.surface_container_highest()
   }
 
   pub fn on_surface(&self) -> DynamicColor {
-    self.color_spec.on_surface()
+    Self::COLOR_SPEC.on_surface()
   }
 
   pub fn surface_variant(&self) -> DynamicColor {
-    self.color_spec.surface_variant()
+    Self::COLOR_SPEC.surface_variant()
   }
 
   pub fn on_surface_variant(&self) -> DynamicColor {
-    self.color_spec.on_surface_variant()
+    Self::COLOR_SPEC.on_surface_variant()
   }
 
   pub fn inverse_surface(&self) -> DynamicColor {
-    self.color_spec.inverse_surface()
+    Self::COLOR_SPEC.inverse_surface()
   }
 
   pub fn inverse_on_surface(&self) -> DynamicColor {
-    self.color_spec.inverse_on_surface()
+    Self::COLOR_SPEC.inverse_on_surface()
   }
 
   pub fn outline(&self) -> DynamicColor {
-    self.color_spec.outline()
+    Self::COLOR_SPEC.outline()
   }
 
   pub fn outline_variant(&self) -> DynamicColor {
-    self.color_spec.outline_variant()
+    Self::COLOR_SPEC.outline_variant()
   }
 
   pub fn shadow(&self) -> DynamicColor {
-    self.color_spec.shadow()
+    Self::COLOR_SPEC.shadow()
   }
 
   pub fn scrim(&self) -> DynamicColor {
-    self.color_spec.scrim()
+    Self::COLOR_SPEC.scrim()
   }
 
   pub fn surface_tint(&self) -> DynamicColor {
-    self.color_spec.surface_tint()
+    Self::COLOR_SPEC.surface_tint()
   }
 
   ////////////////////////////////////////////////////////////////
@@ -132,27 +132,27 @@ impl MaterialDynamicColors {
   ////////////////////////////////////////////////////////////////
 
   pub fn primary(&self) -> DynamicColor {
-    self.color_spec.primary()
+    Self::COLOR_SPEC.primary()
   }
 
   pub fn primary_dim(&self) -> DynamicColor {
-    self.color_spec.primary_dim().unwrap()
+    Self::COLOR_SPEC.primary_dim().unwrap()
   }
 
   pub fn on_primary(&self) -> DynamicColor {
-    self.color_spec.on_primary()
+    Self::COLOR_SPEC.on_primary()
   }
 
   pub fn primary_container(&self) -> DynamicColor {
-    self.color_spec.primary_container()
+    Self::COLOR_SPEC.primary_container()
   }
 
   pub fn on_primary_container(&self) -> DynamicColor {
-    self.color_spec.on_primary_container()
+    Self::COLOR_SPEC.on_primary_container()
   }
 
   pub fn inverse_primary(&self) -> DynamicColor {
-    self.color_spec.inverse_primary()
+    Self::COLOR_SPEC.inverse_primary()
   }
 
   /////////////////////////////////////////////////////////////////
@@ -160,19 +160,19 @@ impl MaterialDynamicColors {
   /////////////////////////////////////////////////////////////////
 
   pub fn primary_fixed(&self) -> DynamicColor {
-    self.color_spec.primary_fixed()
+    Self::COLOR_SPEC.primary_fixed()
   }
 
   pub fn primary_fixed_dim(&self) -> DynamicColor {
-    self.color_spec.primary_fixed_dim()
+    Self::COLOR_SPEC.primary_fixed_dim()
   }
 
   pub fn on_primary_fixed(&self) -> DynamicColor {
-    self.color_spec.on_primary_fixed()
+    Self::COLOR_SPEC.on_primary_fixed()
   }
 
   pub fn on_primary_fixed_variant(&self) -> DynamicColor {
-    self.color_spec.on_primary_fixed_variant()
+    Self::COLOR_SPEC.on_primary_fixed_variant()
   }
 
   ////////////////////////////////////////////////////////////////
@@ -180,23 +180,23 @@ impl MaterialDynamicColors {
   ////////////////////////////////////////////////////////////////
 
   pub fn secondary(&self) -> DynamicColor {
-    self.color_spec.secondary()
+    Self::COLOR_SPEC.secondary()
   }
 
   pub fn secondary_dim(&self) -> DynamicColor {
-    self.color_spec.secondary_dim().unwrap()
+    Self::COLOR_SPEC.secondary_dim().unwrap()
   }
 
   pub fn on_secondary(&self) -> DynamicColor {
-    self.color_spec.on_secondary()
+    Self::COLOR_SPEC.on_secondary()
   }
 
   pub fn secondary_container(&self) -> DynamicColor {
-    self.color_spec.secondary_container()
+    Self::COLOR_SPEC.secondary_container()
   }
 
   pub fn on_secondary_container(&self) -> DynamicColor {
-    self.color_spec.on_secondary_container()
+    Self::COLOR_SPEC.on_secondary_container()
   }
 
   /////////////////////////////////////////////////////////////////
@@ -204,19 +204,19 @@ impl MaterialDynamicColors {
   /////////////////////////////////////////////////////////////////
 
   pub fn secondary_fixed(&self) -> DynamicColor {
-    self.color_spec.secondary_fixed()
+    Self::COLOR_SPEC.secondary_fixed()
   }
 
   pub fn secondary_fixed_dim(&self) -> DynamicColor {
-    self.color_spec.secondary_fixed_dim()
+    Self::COLOR_SPEC.secondary_fixed_dim()
   }
 
   pub fn on_secondary_fixed(&self) -> DynamicColor {
-    self.color_spec.on_secondary_fixed()
+    Self::COLOR_SPEC.on_secondary_fixed()
   }
 
   pub fn on_secondary_fixed_variant(&self) -> DynamicColor {
-    self.color_spec.on_secondary_fixed_variant()
+    Self::COLOR_SPEC.on_secondary_fixed_variant()
   }
 
   ////////////////////////////////////////////////////////////////
@@ -224,23 +224,23 @@ impl MaterialDynamicColors {
   ////////////////////////////////////////////////////////////////
 
   pub fn tertiary(&self) -> DynamicColor {
-    self.color_spec.tertiary()
+    Self::COLOR_SPEC.tertiary()
   }
 
   pub fn tertiary_dim(&self) -> DynamicColor {
-    self.color_spec.tertiary_dim().unwrap()
+    Self::COLOR_SPEC.tertiary_dim().unwrap()
   }
 
   pub fn on_tertiary(&self) -> DynamicColor {
-    self.color_spec.on_tertiary()
+    Self::COLOR_SPEC.on_tertiary()
   }
 
   pub fn tertiary_container(&self) -> DynamicColor {
-    self.color_spec.tertiary_container()
+    Self::COLOR_SPEC.tertiary_container()
   }
 
   pub fn on_tertiary_container(&self) -> DynamicColor {
-    self.color_spec.on_tertiary_container()
+    Self::COLOR_SPEC.on_tertiary_container()
   }
 
   /////////////////////////////////////////////////////////////////
@@ -248,19 +248,19 @@ impl MaterialDynamicColors {
   /////////////////////////////////////////////////////////////////
 
   pub fn tertiary_fixed(&self) -> DynamicColor {
-    self.color_spec.tertiary_fixed()
+    Self::COLOR_SPEC.tertiary_fixed()
   }
 
   pub fn tertiary_fixed_dim(&self) -> DynamicColor {
-    self.color_spec.tertiary_fixed_dim()
+    Self::COLOR_SPEC.tertiary_fixed_dim()
   }
 
   pub fn on_tertiary_fixed(&self) -> DynamicColor {
-    self.color_spec.on_tertiary_fixed()
+    Self::COLOR_SPEC.on_tertiary_fixed()
   }
 
   pub fn on_tertiary_fixed_variant(&self) -> DynamicColor {
-    self.color_spec.on_tertiary_fixed_variant()
+    Self::COLOR_SPEC.on_tertiary_fixed_variant()
   }
 
   ////////////////////////////////////////////////////////////////
@@ -268,23 +268,23 @@ impl MaterialDynamicColors {
   ////////////////////////////////////////////////////////////////
 
   pub fn error(&self) -> DynamicColor {
-    self.color_spec.error()
+    Self::COLOR_SPEC.error()
   }
 
   pub fn error_dim(&self) -> DynamicColor {
-    self.color_spec.error_dim().unwrap()
+    Self::COLOR_SPEC.error_dim().unwrap()
   }
 
   pub fn on_error(&self) -> DynamicColor {
-    self.color_spec.on_error()
+    Self::COLOR_SPEC.on_error()
   }
 
   pub fn error_container(&self) -> DynamicColor {
-    self.color_spec.error_container()
+    Self::COLOR_SPEC.error_container()
   }
 
   pub fn on_error_container(&self) -> DynamicColor {
-    self.color_spec.on_error_container()
+    Self::COLOR_SPEC.on_error_container()
   }
 
   ////////////////////////////////////////////////////////////////
@@ -304,14 +304,14 @@ impl MaterialDynamicColors {
   // Android used Material's Container as Primary/Secondary/Tertiary at launch.
   // Therefore, this is a duplicated version of Primary Container.
   pub fn control_activated(&self) -> DynamicColor {
-    self.color_spec.control_activated()
+    Self::COLOR_SPEC.control_activated()
   }
 
   // colorControlNormal documented as textColorSecondary in M3 & GM3.
   // In Material, textColorSecondary points to onSurfaceVariant in the non-disabled state,
   // which is Neutral Variant T30/80 in light/dark.
   pub fn control_normal(&self) -> DynamicColor {
-    self.color_spec.control_normal()
+    Self::COLOR_SPEC.control_normal()
   }
 
   // colorControlHighlight documented, in both M3 & GM3:
@@ -323,36 +323,34 @@ impl MaterialDynamicColors {
   // depending on how MDC resolved alpha for the other cases.
   // Returning black in dark mode, white in light mode.
   pub fn control_highlight(&self) -> DynamicColor {
-    self.color_spec.control_highlight()
+    Self::COLOR_SPEC.control_highlight()
   }
 
   // textColorPrimaryInverse documented, in both M3 & GM3, documented as N10/N90.
   pub fn text_primary_inverse(&self) -> DynamicColor {
-    self.color_spec.text_primary_inverse()
+    Self::COLOR_SPEC.text_primary_inverse()
   }
 
   // textColorSecondaryInverse and textColorTertiaryInverse both documented, in both M3 & GM3, as
   // NV30/NV80
   pub fn text_secondary_and_tertiary_inverse(&self) -> DynamicColor {
-    self.color_spec.text_secondary_and_tertiary_inverse()
+    Self::COLOR_SPEC.text_secondary_and_tertiary_inverse()
   }
 
   // textColorPrimaryInverseDisableOnly documented, in both M3 & GM3, as N10/N90
   pub fn text_primary_inverse_disable_only(&self) -> DynamicColor {
-    self.color_spec.text_primary_inverse_disable_only()
+    Self::COLOR_SPEC.text_primary_inverse_disable_only()
   }
 
   // textColorSecondaryInverse and textColorTertiaryInverse in disabled state both documented,
   // in both M3 & GM3, as N10/N90
   pub fn text_secondary_and_tertiary_inverse_disabled(&self) -> DynamicColor {
-    self
-      .color_spec
-      .text_secondary_and_tertiary_inverse_disabled()
+    Self::COLOR_SPEC.text_secondary_and_tertiary_inverse_disabled()
   }
 
   // textColorHintInverse documented, in both M3 & GM3, as N10/N90
   pub fn text_hint_inverse(&self) -> DynamicColor {
-    self.color_spec.text_hint_inverse()
+    Self::COLOR_SPEC.text_hint_inverse()
   }
 
   pub fn all_dynamic_colors(&self) -> Vec<DynamicColor> {
