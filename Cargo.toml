@@ -1,7 +1,7 @@
 [workspace]
 resolver = "3"
-members = ["crates/material-color-utilities", "crates/material-color-utilities-wasm", "crates/mtb"]
+members = ["crates/material-color-utilities", "crates/mtb"]
 
 [workspace.package]
-repository = "https://github.com/deminearchiver/material-color-utilities-rust/"
+repository = "https://github.com/deminearchiver/material-color-utilities-rust"
 edition = "2024"
