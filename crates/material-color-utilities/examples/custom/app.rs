@@ -300,6 +300,7 @@ pub fn run() {
   let twitch = Preset::with_colors(PresetColors::from_source_color(0xff9146ff));
   let youtube = Preset::with_colors(PresetColors::from_source_color(0xffff0033));
   let discord = Preset::with_colors(PresetColors::from_source_color(0xff5865f2));
+  let localsend = Preset::with_colors(PresetColors::from_source_color(0xff009688));
   let base_path = PathBuf::from("./gen/custom");
   let name_to_preset = [
     ("baseline", baseline),
@@ -307,6 +308,7 @@ pub fn run() {
     ("twitch", twitch),
     ("youtube", youtube),
     ("discord", discord),
+    ("localsend", localsend),
   ];
   for (name, preset) in name_to_preset.iter() {
     save_preset(preset, base_path.join(name)).unwrap();

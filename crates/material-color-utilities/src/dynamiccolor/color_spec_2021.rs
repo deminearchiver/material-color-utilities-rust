@@ -3,8 +3,8 @@
 use crate::{
   dislike_analyzer,
   dynamiccolor::{
-    ColorSpec, ContrastCurve, DynamicColor, DynamicColorBuilder, DynamicScheme, ToneDeltaPair,
-    TonePolarity, Variant,
+    ColorSpec, ContrastCurve, DeltaConstraint, DynamicColor, DynamicColorBuilder, DynamicScheme,
+    ToneDeltaPair, TonePolarity, Variant,
   },
   hct::Hct,
 };
@@ -380,12 +380,13 @@ impl ColorSpec for ColorSpec2021 {
       .background(|s| self.highest_surface(s).into())
       .contrast_curve(|_| ContrastCurve::new(3.0, 4.5, 7.0, 7.0).into())
       .tone_delta_pair(|_| {
-        ToneDeltaPair::with_stay_together(
+        ToneDeltaPair::new(
           self.primary_container(),
           self.primary(),
           10.0,
-          TonePolarity::Nearer,
+          TonePolarity::RelativeLighter,
           false,
+          DeltaConstraint::Exact,
         )
         .into()
       })
@@ -435,12 +436,13 @@ impl ColorSpec for ColorSpec2021 {
       .background(|s| self.highest_surface(s).into())
       .contrast_curve(|_| ContrastCurve::new(1.0, 1.0, 3.0, 4.5).into())
       .tone_delta_pair(|_| {
-        ToneDeltaPair::with_stay_together(
+        ToneDeltaPair::new(
           self.primary_container(),
           self.primary(),
           10.0,
-          TonePolarity::Nearer,
+          TonePolarity::RelativeLighter,
           false,
+          DeltaConstraint::Exact,
         )
         .into()
       })
@@ -489,12 +491,13 @@ impl ColorSpec for ColorSpec2021 {
       .background(|s| self.highest_surface(s).into())
       .contrast_curve(|_| ContrastCurve::new(3.0, 4.5, 7.0, 7.0).into())
       .tone_delta_pair(|_| {
-        ToneDeltaPair::with_stay_together(
+        ToneDeltaPair::new(
           self.secondary_container(),
           self.secondary(),
           10.0,
-          TonePolarity::Nearer,
+          TonePolarity::RelativeLighter,
           false,
+          DeltaConstraint::Exact,
         )
         .into()
       })
@@ -548,12 +551,13 @@ impl ColorSpec for ColorSpec2021 {
       .background(|s| self.highest_surface(s).into())
       .contrast_curve(|_| ContrastCurve::new(1.0, 1.0, 3.0, 4.5).into())
       .tone_delta_pair(|_| {
-        ToneDeltaPair::with_stay_together(
+        ToneDeltaPair::new(
           self.secondary_container(),
           self.secondary(),
           10.0,
-          TonePolarity::Nearer,
+          TonePolarity::RelativeLighter,
           false,
+          DeltaConstraint::Exact,
         )
         .into()
       })
@@ -597,12 +601,13 @@ impl ColorSpec for ColorSpec2021 {
       .background(|s| self.highest_surface(s).into())
       .contrast_curve(|_| ContrastCurve::new(3.0, 4.5, 7.0, 7.0).into())
       .tone_delta_pair(|_| {
-        ToneDeltaPair::with_stay_together(
+        ToneDeltaPair::new(
           self.tertiary_container(),
           self.tertiary(),
           10.0,
-          TonePolarity::Nearer,
+          TonePolarity::RelativeLighter,
           false,
+          DeltaConstraint::Exact,
         )
         .into()
       })
@@ -651,12 +656,13 @@ impl ColorSpec for ColorSpec2021 {
       .background(|s| self.highest_surface(s).into())
       .contrast_curve(|_| ContrastCurve::new(1.0, 1.0, 3.0, 4.5).into())
       .tone_delta_pair(|_| {
-        ToneDeltaPair::with_stay_together(
+        ToneDeltaPair::new(
           self.tertiary_container(),
           self.tertiary(),
           10.0,
-          TonePolarity::Nearer,
+          TonePolarity::RelativeLighter,
           false,
+          DeltaConstraint::Exact,
         )
         .into()
       })
@@ -692,12 +698,13 @@ impl ColorSpec for ColorSpec2021 {
       .background(|s| self.highest_surface(s).into())
       .contrast_curve(|_| ContrastCurve::new(3.0, 4.5, 7.0, 7.0).into())
       .tone_delta_pair(|_| {
-        ToneDeltaPair::with_stay_together(
+        ToneDeltaPair::new(
           self.error_container(),
           self.error(),
           10.0,
-          TonePolarity::Nearer,
+          TonePolarity::RelativeLighter,
           false,
+          DeltaConstraint::Exact,
         )
         .into()
       })
@@ -729,12 +736,13 @@ impl ColorSpec for ColorSpec2021 {
       .background(|s| self.highest_surface(s).into())
       .contrast_curve(|_| ContrastCurve::new(1.0, 1.0, 3.0, 4.5).into())
       .tone_delta_pair(|_| {
-        ToneDeltaPair::with_stay_together(
+        ToneDeltaPair::new(
           self.error_container(),
           self.error(),
           10.0,
-          TonePolarity::Nearer,
+          TonePolarity::RelativeLighter,
           false,
+          DeltaConstraint::Exact,
         )
         .into()
       })
@@ -961,80 +969,6 @@ impl ColorSpec for ColorSpec2021 {
       .background(|_| self.tertiary_fixed_dim().into())
       .second_background(|_| self.tertiary_fixed().into())
       .contrast_curve(|_| ContrastCurve::new(3.0, 4.5, 7.0, 11.0).into())
-      .build()
-      .unwrap()
-  }
-
-  fn control_activated(&self) -> DynamicColor {
-    DynamicColorBuilder::new()
-      .name("control_activated")
-      .palette(|s| s.primary_palette())
-      .tone(|s| if s.is_dark() { 30.0 } else { 90.0 })
-      .is_background(true)
-      .build()
-      .unwrap()
-  }
-
-  fn control_normal(&self) -> DynamicColor {
-    DynamicColorBuilder::new()
-      .name("control_normal")
-      .palette(|s| s.neutral_variant_palette())
-      .tone(|s| if s.is_dark() { 80.0 } else { 30.0 })
-      .build()
-      .unwrap()
-  }
-
-  fn control_highlight(&self) -> DynamicColor {
-    DynamicColorBuilder::new()
-      .name("control_highlight")
-      .palette(|s| s.neutral_palette())
-      .tone(|s| if s.is_dark() { 100.0 } else { 00.0 })
-      .opacity(|s| if s.is_dark() { 0.20 } else { 0.12 }.into())
-      .build()
-      .unwrap()
-  }
-
-  fn text_primary_inverse(&self) -> DynamicColor {
-    DynamicColorBuilder::new()
-      .name("text_primary_inverse")
-      .palette(|s| s.neutral_palette())
-      .tone(|s| if s.is_dark() { 10.0 } else { 90.0 })
-      .build()
-      .unwrap()
-  }
-
-  fn text_secondary_and_tertiary_inverse(&self) -> DynamicColor {
-    DynamicColorBuilder::new()
-      .name("text_secondary_and_tertiary_inverse")
-      .palette(|s| s.neutral_variant_palette())
-      .tone(|s| if s.is_dark() { 30.0 } else { 80.0 })
-      .build()
-      .unwrap()
-  }
-
-  fn text_primary_inverse_disable_only(&self) -> DynamicColor {
-    DynamicColorBuilder::new()
-      .name("text_primary_inverse_disable_only")
-      .palette(|s| s.neutral_palette())
-      .tone(|s| if s.is_dark() { 10.0 } else { 90.0 })
-      .build()
-      .unwrap()
-  }
-
-  fn text_secondary_and_tertiary_inverse_disabled(&self) -> DynamicColor {
-    DynamicColorBuilder::new()
-      .name("text_secondary_and_tertiary_inverse_disabled")
-      .palette(|s| s.neutral_palette())
-      .tone(|s| if s.is_dark() { 10.0 } else { 90.0 })
-      .build()
-      .unwrap()
-  }
-
-  fn text_hint_inverse(&self) -> DynamicColor {
-    DynamicColorBuilder::new()
-      .name("text_hint_inverse")
-      .palette(|s| s.neutral_palette())
-      .tone(|s| if s.is_dark() { 10.0 } else { 90.0 })
       .build()
       .unwrap()
   }

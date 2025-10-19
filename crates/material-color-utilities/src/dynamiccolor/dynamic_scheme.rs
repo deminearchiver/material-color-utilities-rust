@@ -410,44 +410,6 @@ impl DynamicScheme {
   pub fn on_error_container(&self) -> u32 {
     Self::DYNAMIC_COLORS.on_error_container().get_argb(self)
   }
-
-  pub fn control_activated(&self) -> u32 {
-    Self::DYNAMIC_COLORS.control_activated().get_argb(self)
-  }
-
-  pub fn control_normal(&self) -> u32 {
-    Self::DYNAMIC_COLORS.control_normal().get_argb(self)
-  }
-
-  pub fn control_highlight(&self) -> u32 {
-    Self::DYNAMIC_COLORS.control_highlight().get_argb(self)
-  }
-
-  pub fn text_primary_inverse(&self) -> u32 {
-    Self::DYNAMIC_COLORS.text_primary_inverse().get_argb(self)
-  }
-
-  pub fn text_secondary_and_tertiary_inverse(&self) -> u32 {
-    Self::DYNAMIC_COLORS
-      .text_secondary_and_tertiary_inverse()
-      .get_argb(self)
-  }
-
-  pub fn text_primary_inverse_disable_only(&self) -> u32 {
-    Self::DYNAMIC_COLORS
-      .text_primary_inverse_disable_only()
-      .get_argb(self)
-  }
-
-  pub fn text_secondary_and_tertiary_inverse_disabled(&self) -> u32 {
-    Self::DYNAMIC_COLORS
-      .text_secondary_and_tertiary_inverse_disabled()
-      .get_argb(self)
-  }
-
-  pub fn text_hint_inverse(&self) -> u32 {
-    Self::DYNAMIC_COLORS.text_hint_inverse().get_argb(self)
-  }
 }
 
 impl Display for DynamicScheme {

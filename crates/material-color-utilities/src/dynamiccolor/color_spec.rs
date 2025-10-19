@@ -160,26 +160,6 @@ pub trait ColorSpec {
 
   fn on_tertiary_fixed_variant(&self) -> DynamicColor;
 
-  //////////////////////////////////////////////////////////////////
-  // Android-only Colors                                          //
-  //////////////////////////////////////////////////////////////////
-
-  fn control_activated(&self) -> DynamicColor;
-
-  fn control_normal(&self) -> DynamicColor;
-
-  fn control_highlight(&self) -> DynamicColor;
-
-  fn text_primary_inverse(&self) -> DynamicColor;
-
-  fn text_secondary_and_tertiary_inverse(&self) -> DynamicColor;
-
-  fn text_primary_inverse_disable_only(&self) -> DynamicColor;
-
-  fn text_secondary_and_tertiary_inverse_disabled(&self) -> DynamicColor;
-
-  fn text_hint_inverse(&self) -> DynamicColor;
-
   ////////////////////////////////////////////////////////////////
   // Other                                                      //
   ////////////////////////////////////////////////////////////////

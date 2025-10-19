@@ -1,5 +1,3 @@
-use std::marker::PhantomData;
-
 use crate::dynamiccolor::{ColorSpec, ColorSpec2025, DynamicColor, DynamicScheme};
 
 pub struct MaterialDynamicColors;
@@ -287,72 +285,6 @@ impl MaterialDynamicColors {
     Self::COLOR_SPEC.on_error_container()
   }
 
-  ////////////////////////////////////////////////////////////////
-  // Android-only colors                                        //
-  ////////////////////////////////////////////////////////////////
-
-  // These colors were present in Android framework before Android U, and used by MDC controls. They
-  // should be avoided, if possible. It's unclear if they're used on multiple backgrounds, and if
-  // they are, they can't be adjusted for contrast.* For now, they will be set with no background,
-  // and those won't adjust for contrast, avoiding issues.
-  //
-  // <p>* For example, if the same color is on a white background _and_ black background, there's no
-  // way to increase contrast with either without losing contrast with the other.
-
-  // colorControlActivated documented as colorAccent in M3 & GM3.
-  // colorAccent documented as colorSecondary in M3 and colorPrimary in GM3.
-  // Android used Material's Container as Primary/Secondary/Tertiary at launch.
-  // Therefore, this is a duplicated version of Primary Container.
-  pub fn control_activated(&self) -> DynamicColor {
-    Self::COLOR_SPEC.control_activated()
-  }
-
-  // colorControlNormal documented as textColorSecondary in M3 & GM3.
-  // In Material, textColorSecondary points to onSurfaceVariant in the non-disabled state,
-  // which is Neutral Variant T30/80 in light/dark.
-  pub fn control_normal(&self) -> DynamicColor {
-    Self::COLOR_SPEC.control_normal()
-  }
-
-  // colorControlHighlight documented, in both M3 & GM3:
-  // Light mode: #1f000000 dark mode: #33ffffff.
-  // These are black and white with some alpha.
-  // 1F hex = 31 decimal; 31 / 255 = 12% alpha.
-  // 33 hex = 51 decimal; 51 / 255 = 20% alpha.
-  // DynamicColors do not support alpha currently, and _may_ not need it for this use case,
-  // depending on how MDC resolved alpha for the other cases.
-  // Returning black in dark mode, white in light mode.
-  pub fn control_highlight(&self) -> DynamicColor {
-    Self::COLOR_SPEC.control_highlight()
-  }
-
-  // textColorPrimaryInverse documented, in both M3 & GM3, documented as N10/N90.
-  pub fn text_primary_inverse(&self) -> DynamicColor {
-    Self::COLOR_SPEC.text_primary_inverse()
-  }
-
-  // textColorSecondaryInverse and textColorTertiaryInverse both documented, in both M3 & GM3, as
-  // NV30/NV80
-  pub fn text_secondary_and_tertiary_inverse(&self) -> DynamicColor {
-    Self::COLOR_SPEC.text_secondary_and_tertiary_inverse()
-  }
-
-  // textColorPrimaryInverseDisableOnly documented, in both M3 & GM3, as N10/N90
-  pub fn text_primary_inverse_disable_only(&self) -> DynamicColor {
-    Self::COLOR_SPEC.text_primary_inverse_disable_only()
-  }
-
-  // textColorSecondaryInverse and textColorTertiaryInverse in disabled state both documented,
-  // in both M3 & GM3, as N10/N90
-  pub fn text_secondary_and_tertiary_inverse_disabled(&self) -> DynamicColor {
-    Self::COLOR_SPEC.text_secondary_and_tertiary_inverse_disabled()
-  }
-
-  // textColorHintInverse documented, in both M3 & GM3, as N10/N90
-  pub fn text_hint_inverse(&self) -> DynamicColor {
-    Self::COLOR_SPEC.text_hint_inverse()
-  }
-
   pub fn all_dynamic_colors(&self) -> Vec<DynamicColor> {
     vec![
       self.primary_palette_key_color(),
@@ -414,14 +346,6 @@ impl MaterialDynamicColors {
       self.on_error(),
       self.error_container(),
       self.on_error_container(),
-      self.control_activated(),
-      self.control_normal(),
-      self.control_highlight(),
-      self.text_primary_inverse(),
-      self.text_secondary_and_tertiary_inverse(),
-      self.text_primary_inverse_disable_only(),
-      self.text_secondary_and_tertiary_inverse_disabled(),
-      self.text_hint_inverse(),
     ]
   }
 }

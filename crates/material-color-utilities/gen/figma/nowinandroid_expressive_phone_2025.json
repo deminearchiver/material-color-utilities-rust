@@ -68,15 +68,7 @@
       "errorDim": "#770326",
       "onError": "#FFF7F7",
       "errorContainer": "#F76A80",
-      "onErrorContainer": "#68001F",
-      "controlActivated": "#FAACF9",
-      "controlNormal": "#884F53",
-      "controlHighlight": "#1F000000",
-      "textPrimaryInverse": "#BD9294",
-      "textSecondaryAndTertiaryInverse": "#F3B1F1",
-      "textPrimaryInverseDisableOnly": "#FFDADB",
-      "textSecondaryAndTertiaryInverseDisabled": "#FFDADB",
-      "textHintInverse": "#FFDADB"
+      "onErrorContainer": "#68001F"
     },
     "light-medium-contrast": {
       "primaryPaletteKeyColor": "#A35EA4",
@@ -137,15 +129,7 @@
       "errorDim": "#740124",
       "onError": "#FFCDD1",
       "errorContainer": "#C8475D",
-      "onErrorContainer": "#FFFFFF",
-      "controlActivated": "#A05BA2",
-      "controlNormal": "#663438",
-      "controlHighlight": "#1F000000",
-      "textPrimaryInverse": "#E7BABB",
-      "textSecondaryAndTertiaryInverse": "#F3B1F1",
-      "textPrimaryInverseDisableOnly": "#FFDADB",
-      "textSecondaryAndTertiaryInverseDisabled": "#FFDADB",
-      "textHintInverse": "#FFDADB"
+      "onErrorContainer": "#FFFFFF"
     },
     "light-high-contrast": {
       "primaryPaletteKeyColor": "#A35EA4",
@@ -206,15 +190,7 @@
       "errorDim": "#3D000F",
       "onError": "#FFCED2",
       "errorContainer": "#AC3149",
-      "onErrorContainer": "#FFFFFF",
-      "controlActivated": "#88468A",
-      "controlNormal": "#41161A",
-      "controlHighlight": "#1F000000",
-      "textPrimaryInverse": "#FFFFFF",
-      "textSecondaryAndTertiaryInverse": "#F3B1F1",
-      "textPrimaryInverseDisableOnly": "#FFDADB",
-      "textSecondaryAndTertiaryInverseDisabled": "#FFDADB",
-      "textHintInverse": "#FFDADB"
+      "onErrorContainer": "#FFFFFF"
     },
     "dark": {
       "primaryPaletteKeyColor": "#986697",
@@ -275,15 +251,7 @@
       "errorDim": "#C8475D",
       "onError": "#490013",
       "errorContainer": "#8A1632",
-      "onErrorContainer": "#FF97A3",
-      "controlActivated": "#F6BCF3",
-      "controlNormal": "#D39DA0",
-      "controlHighlight": "#33FFFFFF",
-      "textPrimaryInverse": "#694E4F",
-      "textSecondaryAndTertiaryInverse": "#603960",
-      "textPrimaryInverseDisableOnly": "#2A1617",
-      "textSecondaryAndTertiaryInverseDisabled": "#2A1617",
-      "textHintInverse": "#2A1617"
+      "onErrorContainer": "#FF97A3"
     },
     "dark-medium-contrast": {
       "primaryPaletteKeyColor": "#986697",
@@ -344,15 +312,7 @@
       "errorDim": "#FF8695",
       "onError": "#5F001C",
       "errorContainer": "#C8475D",
-      "onErrorContainer": "#FFFFFF",
-      "controlActivated": "#F6BCF3",
-      "controlNormal": "#E2ABAD",
-      "controlHighlight": "#33FFFFFF",
-      "textPrimaryInverse": "#4A3233",
-      "textSecondaryAndTertiaryInverse": "#603960",
-      "textPrimaryInverseDisableOnly": "#2A1617",
-      "textSecondaryAndTertiaryInverseDisabled": "#2A1617",
-      "textHintInverse": "#2A1617"
+      "onErrorContainer": "#FFFFFF"
     },
     "dark-high-contrast": {
       "primaryPaletteKeyColor": "#986697",
@@ -413,15 +373,7 @@
       "errorDim": "#FFC7CB",
       "onError": "#5F001C",
       "errorContainer": "#FD6F85",
-      "onErrorContainer": "#000000",
-      "controlActivated": "#F6BCF3",
-      "controlNormal": "#FFDEDE",
-      "controlHighlight": "#33FFFFFF",
-      "textPrimaryInverse": "#000000",
-      "textSecondaryAndTertiaryInverse": "#603960",
-      "textPrimaryInverseDisableOnly": "#2A1617",
-      "textSecondaryAndTertiaryInverseDisabled": "#2A1617",
-      "textHintInverse": "#2A1617"
+      "onErrorContainer": "#000000"
     }
   },
   "palettes": {}

@@ -1952,69 +1952,6 @@ impl ColorSpec for ColorSpec2025 {
       .unwrap()
   }
 
-  //////////////////////////////////////////////////////////////////
-  // Android-only Colors                                          //
-  //////////////////////////////////////////////////////////////////
-
-  fn control_activated(&self) -> DynamicColor {
-    // Remapped to: DynamicColor<'_> primary_container for 2025 spec.
-    let color2025 = DynamicColorBuilder::from(self.primary_container())
-      .name("control_activated")
-      .build()
-      .unwrap();
-    DynamicColorBuilder::from(SPEC_2021.control_activated())
-      .extend_spec_version(SpecVersion::Spec2025, color2025)
-      .unwrap()
-      .build()
-      .unwrap()
-  }
-
-  fn control_normal(&self) -> DynamicColor {
-    // Remapped to on_surface_variant for 2025 spec.
-    let color2025 = DynamicColorBuilder::from(self.on_surface_variant())
-      .name("control_normal")
-      .build()
-      .unwrap();
-    DynamicColorBuilder::from(SPEC_2021.control_normal())
-      .extend_spec_version(SpecVersion::Spec2025, color2025)
-      .unwrap()
-      .build()
-      .unwrap()
-  }
-
-  fn control_highlight(&self) -> DynamicColor {
-    SPEC_2021.control_highlight()
-  }
-
-  fn text_primary_inverse(&self) -> DynamicColor {
-    // Remapped to inverse_on_surface for 2025 spec.
-    let color2025 = DynamicColorBuilder::from(self.inverse_on_surface())
-      .name("text_primary_inverse")
-      .build()
-      .unwrap();
-    DynamicColorBuilder::from(SPEC_2021.text_primary_inverse())
-      .extend_spec_version(SpecVersion::Spec2025, color2025)
-      .unwrap()
-      .build()
-      .unwrap()
-  }
-
-  fn text_secondary_and_tertiary_inverse(&self) -> DynamicColor {
-    SPEC_2021.text_secondary_and_tertiary_inverse()
-  }
-
-  fn text_primary_inverse_disable_only(&self) -> DynamicColor {
-    SPEC_2021.text_primary_inverse_disable_only()
-  }
-
-  fn text_secondary_and_tertiary_inverse_disabled(&self) -> DynamicColor {
-    SPEC_2021.text_secondary_and_tertiary_inverse_disabled()
-  }
-
-  fn text_hint_inverse(&self) -> DynamicColor {
-    SPEC_2021.text_hint_inverse()
-  }
-
   ////////////////////////////////////////////////////////////////
   // Other                                                      //
   ////////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@
 
 use crate::{
   contrast,
-  dynamiccolor::{ColorCalculationSpec, TonePolarity},
+  dynamiccolor::{ColorCalculationSpec, DeltaConstraint, TonePolarity},
   hct::Hct,
 };
 
@@ -34,7 +34,7 @@ impl ColorCalculationSpec for ColorCalculationSpec2021 {
       let polarity = tone_delta_pair.polarity();
       let stay_together = tone_delta_pair.stay_together();
 
-      let a_is_nearer = polarity == &TonePolarity::Nearer
+      let a_is_nearer = tone_delta_pair.constraint() == &DeltaConstraint::Nearer
         || (polarity == &TonePolarity::Ligher && !scheme.is_dark())
         || (polarity == &TonePolarity::Darker && !scheme.is_dark());
       let nearer = if a_is_nearer { role_a } else { role_b };

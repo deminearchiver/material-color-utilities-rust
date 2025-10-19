@@ -246,22 +246,6 @@ pub struct FigmaScheme {
   error_container: u32,
   #[serde(serialize_with = "serialize_argb_to_hex")]
   on_error_container: u32,
-  #[serde(serialize_with = "serialize_argb_to_hex")]
-  control_activated: u32,
-  #[serde(serialize_with = "serialize_argb_to_hex")]
-  control_normal: u32,
-  #[serde(serialize_with = "serialize_argb_to_hex")]
-  control_highlight: u32,
-  #[serde(serialize_with = "serialize_argb_to_hex")]
-  text_primary_inverse: u32,
-  #[serde(serialize_with = "serialize_argb_to_hex")]
-  text_secondary_and_tertiary_inverse: u32,
-  #[serde(serialize_with = "serialize_argb_to_hex")]
-  text_primary_inverse_disable_only: u32,
-  #[serde(serialize_with = "serialize_argb_to_hex")]
-  text_secondary_and_tertiary_inverse_disabled: u32,
-  #[serde(serialize_with = "serialize_argb_to_hex")]
-  text_hint_inverse: u32,
 }
 
 impl From<&DynamicScheme> for FigmaScheme {
@@ -363,22 +347,6 @@ impl From<&DynamicScheme> for FigmaScheme {
       on_error: MATERIAL_DYNAMIC_COLORS.on_error().get_argb(value),
       error_container: MATERIAL_DYNAMIC_COLORS.error_container().get_argb(value),
       on_error_container: MATERIAL_DYNAMIC_COLORS.on_error_container().get_argb(value),
-      control_activated: MATERIAL_DYNAMIC_COLORS.control_activated().get_argb(value),
-      control_normal: MATERIAL_DYNAMIC_COLORS.control_normal().get_argb(value),
-      control_highlight: MATERIAL_DYNAMIC_COLORS.control_highlight().get_argb(value),
-      text_primary_inverse: MATERIAL_DYNAMIC_COLORS
-        .text_primary_inverse()
-        .get_argb(value),
-      text_secondary_and_tertiary_inverse: MATERIAL_DYNAMIC_COLORS
-        .text_secondary_and_tertiary_inverse()
-        .get_argb(value),
-      text_primary_inverse_disable_only: MATERIAL_DYNAMIC_COLORS
-        .text_primary_inverse_disable_only()
-        .get_argb(value),
-      text_secondary_and_tertiary_inverse_disabled: MATERIAL_DYNAMIC_COLORS
-        .text_secondary_and_tertiary_inverse_disabled()
-        .get_argb(value),
-      text_hint_inverse: MATERIAL_DYNAMIC_COLORS.text_hint_inverse().get_argb(value),
     }
   }
 }
