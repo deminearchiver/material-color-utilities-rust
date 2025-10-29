@@ -33,7 +33,7 @@ pub enum TonePolarity {
   /// The tone of roleA is always darker than the tone of roleB.
   Darker,
   /// The tone of roleA is always lighter than the tone of roleB.
-  Ligher,
+  Lighter,
   /// The tone of roleA is darker than the tone of roleB in light mode, and lighter than the tone
   /// of roleB in dark mode.
   RelativeDarker,

@@ -9,7 +9,7 @@
   --md-sys-color-on-background: #34313a;
   --md-sys-color-surface: #fdf7fe;
   --md-sys-color-surface-dim: #ded8e4;
-  --md-sys-color-surface-bright: #fdf7ff;
+  --md-sys-color-surface-bright: #fdf7fe;
   --md-sys-color-surface-container-lowest: #ffffff;
   --md-sys-color-surface-container-low: #f8f1fa;
   --md-sys-color-surface-container: #f2ecf5;
@@ -71,7 +71,7 @@
   --md-sys-color-on-background: #25232b;
   --md-sys-color-surface: #fdf7fe;
   --md-sys-color-surface-dim: #ded8e4;
-  --md-sys-color-surface-bright: #fdf7ff;
+  --md-sys-color-surface-bright: #fdf7fe;
   --md-sys-color-surface-container-lowest: #ffffff;
   --md-sys-color-surface-container-low: #f8f1fa;
   --md-sys-color-surface-container: #f2ecf5;
@@ -133,7 +133,7 @@
   --md-sys-color-on-background: #000000;
   --md-sys-color-surface: #fdf7fe;
   --md-sys-color-surface-dim: #ded8e4;
-  --md-sys-color-surface-bright: #fdf7ff;
+  --md-sys-color-surface-bright: #fdf7fe;
   --md-sys-color-surface-container-lowest: #ffffff;
   --md-sys-color-surface-container-low: #f8f1fa;
   --md-sys-color-surface-container: #f2ecf5;
@@ -195,7 +195,7 @@
   --md-sys-color-on-background: #eae3ef;
   --md-sys-color-surface: #0f0d12;
   --md-sys-color-surface-dim: #0f0d12;
-  --md-sys-color-surface-bright: #2d2b30;
+  --md-sys-color-surface-bright: #2e2b34;
   --md-sys-color-surface-container-lowest: #000000;
   --md-sys-color-surface-container-low: #141218;
   --md-sys-color-surface-container: #1b181f;
@@ -257,7 +257,7 @@
   --md-sys-color-on-background: #ffffff;
   --md-sys-color-surface: #0f0d12;
   --md-sys-color-surface-dim: #0f0d12;
-  --md-sys-color-surface-bright: #2d2b30;
+  --md-sys-color-surface-bright: #2e2b34;
   --md-sys-color-surface-container-lowest: #000000;
   --md-sys-color-surface-container-low: #141218;
   --md-sys-color-surface-container: #1b181f;
@@ -319,7 +319,7 @@
   --md-sys-color-on-background: #ffffff;
   --md-sys-color-surface: #0f0d12;
   --md-sys-color-surface-dim: #0f0d12;
-  --md-sys-color-surface-bright: #2d2b30;
+  --md-sys-color-surface-bright: #2e2b34;
   --md-sys-color-surface-container-lowest: #000000;
   --md-sys-color-surface-container-low: #141218;
   --md-sys-color-surface-container: #1b181f;

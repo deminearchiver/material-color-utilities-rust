@@ -247,7 +247,7 @@ impl ColorSpec for ColorSpec2025 {
       })
       .is_background(true)
       .chroma_multiplier(|s| {
-        if !s.is_dark() {
+        if s.is_dark() {
           if s.variant() == &Variant::Neutral {
             return 2.5;
           } else if s.variant() == &Variant::TonalSpot {
@@ -1474,7 +1474,7 @@ impl ColorSpec for ColorSpec2025 {
       .tone(|s| {
         if s.platform() == &Platform::Phone {
           if s.is_dark() {
-            Self::t_max_c_clamped(s.error_palette(), 0.0, 98.0)
+            Self::t_min_c_clamped(s.error_palette(), 0.0, 98.0)
           } else {
             Self::t_max_c(s.error_palette())
           }

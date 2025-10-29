@@ -571,7 +571,7 @@ impl ColorSpec for ColorSpec2021 {
       .palette(|s| s.secondary_palette())
       .tone(|s| {
         if Self::is_monochrome(s) {
-          if s.is_dark() { 10.0 } else { 100.0 }
+          if s.is_dark() { 90.0 } else { 10.0 }
         } else if !Self::is_fidelity(s) {
           if s.is_dark() { 90.0 } else { 30.0 }
         } else {
@@ -625,7 +625,7 @@ impl ColorSpec for ColorSpec2021 {
       .palette(|s| s.tertiary_palette())
       .tone(|s| {
         if Self::is_monochrome(s) {
-          if s.is_dark() { 10.0 } else { 100.0 }
+          if s.is_dark() { 10.0 } else { 90.0 }
         } else if s.is_dark() {
           20.0
         } else {
@@ -644,7 +644,7 @@ impl ColorSpec for ColorSpec2021 {
       .palette(|s| s.tertiary_palette())
       .tone(|s| {
         if Self::is_monochrome(s) {
-          if s.is_dark() { 60.0 } else { 40.0 }
+          if s.is_dark() { 60.0 } else { 49.0 }
         } else if !Self::is_fidelity(s) {
           if s.is_dark() { 30.0 } else { 90.0 }
         } else {
@@ -782,7 +782,7 @@ impl ColorSpec for ColorSpec2021 {
           self.primary_fixed(),
           self.primary_fixed_dim(),
           10.0,
-          TonePolarity::Ligher,
+          TonePolarity::Lighter,
           true,
         )
         .into()
@@ -804,7 +804,7 @@ impl ColorSpec for ColorSpec2021 {
           self.primary_fixed(),
           self.primary_fixed_dim(),
           10.0,
-          TonePolarity::Ligher,
+          TonePolarity::Lighter,
           true,
         )
         .into()
@@ -850,7 +850,7 @@ impl ColorSpec for ColorSpec2021 {
           self.secondary_fixed(),
           self.secondary_fixed_dim(),
           10.0,
-          TonePolarity::Ligher,
+          TonePolarity::Lighter,
           true,
         )
         .into()
@@ -872,7 +872,7 @@ impl ColorSpec for ColorSpec2021 {
           self.secondary_fixed(),
           self.secondary_fixed_dim(),
           10.0,
-          TonePolarity::Ligher,
+          TonePolarity::Lighter,
           true,
         )
         .into()
@@ -918,7 +918,7 @@ impl ColorSpec for ColorSpec2021 {
           self.tertiary_fixed(),
           self.tertiary_fixed_dim(),
           10.0,
-          TonePolarity::Ligher,
+          TonePolarity::Lighter,
           true,
         )
         .into()
@@ -940,7 +940,7 @@ impl ColorSpec for ColorSpec2021 {
           self.tertiary_fixed(),
           self.tertiary_fixed_dim(),
           10.0,
-          TonePolarity::Ligher,
+          TonePolarity::Lighter,
           true,
         )
         .into()

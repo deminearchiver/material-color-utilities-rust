@@ -35,7 +35,7 @@ impl ColorCalculationSpec for ColorCalculationSpec2021 {
       let stay_together = tone_delta_pair.stay_together();
 
       let a_is_nearer = tone_delta_pair.constraint() == &DeltaConstraint::Nearer
-        || (polarity == &TonePolarity::Ligher && !scheme.is_dark())
+        || (polarity == &TonePolarity::Lighter && !scheme.is_dark())
         || (polarity == &TonePolarity::Darker && !scheme.is_dark());
       let nearer = if a_is_nearer { role_a } else { role_b };
       let farther = if a_is_nearer { role_b } else { role_a };
