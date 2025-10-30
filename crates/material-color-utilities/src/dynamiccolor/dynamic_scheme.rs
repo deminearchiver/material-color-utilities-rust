@@ -30,6 +30,21 @@ pub struct DynamicScheme {
 impl DynamicScheme {
   const DYNAMIC_COLORS: MaterialDynamicColors = MaterialDynamicColors;
 
+  /// Returns the spec version to use for the given variant.
+  /// If the variant is not supported by the given spec version,
+  /// the fallback spec version is returned.
+  const fn maybe_fallback_spec_version(
+    spec_version: SpecVersion,
+    variant: &Variant,
+  ) -> SpecVersion {
+    match variant {
+      &Variant::Expressive | &Variant::Vibrant | &Variant::TonalSpot | &Variant::Neutral => {
+        spec_version
+      }
+      _ => SpecVersion::Spec2021,
+    }
+  }
+
   pub const fn default_spec_version() -> SpecVersion {
     SpecVersion::Spec2021
   }
@@ -83,7 +98,7 @@ impl DynamicScheme {
       is_dark,
       platform,
       contrast_level: NotNan::new(contrast_level).unwrap_or_else(|_| NotNan::zero()),
-      spec_version,
+      spec_version: Self::maybe_fallback_spec_version(spec_version, &variant),
       primary_palette,
       secondary_palette,
       tertiary_palette,
@@ -681,9 +696,12 @@ impl DynamicSchemeBuilder {
       .platform
       .unwrap_or_else(DynamicScheme::default_platform);
     let contrast_level = self.contrast_level.unwrap_or(0.0);
-    let spec_version = self
-      .spec_version
-      .unwrap_or_else(DynamicScheme::default_spec_version);
+    let spec_version = DynamicScheme::maybe_fallback_spec_version(
+      self
+        .spec_version
+        .unwrap_or_else(DynamicScheme::default_spec_version),
+      &variant,
+    );
 
     let spec = spec_version.palettes_spec();
     let primary_palette = self.primary_palette.tonal_palette(
