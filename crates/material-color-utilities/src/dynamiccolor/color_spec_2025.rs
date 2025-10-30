@@ -71,7 +71,7 @@ impl ColorSpec2025 {
     answer.clamp(lower_bound, upper_bound)
   }
 
-  const fn contrast_curve(default_contrast: f64) -> ContrastCurve {
+  const fn get_contrast_curve(default_contrast: f64) -> ContrastCurve {
     match default_contrast {
       1.5 => ContrastCurve::new(1.5, 1.5, 3.0, 4.5),
       3.0 => ContrastCurve::new(3.0, 3.0, 4.5, 7.0),
@@ -163,8 +163,8 @@ impl ColorSpec for ColorSpec2025 {
     let color2025 = DynamicColorBuilder::new()
       .name("surface")
       .palette(|s| s.neutral_palette())
-      .tone(|s| match *s.platform() {
-        Platform::Phone => {
+      .tone(|s| {
+        if s.platform() == &Platform::Phone {
           if s.is_dark() {
             4.0
           } else if Hct::is_yellow(s.neutral_palette().hue()) {
@@ -174,8 +174,9 @@ impl ColorSpec for ColorSpec2025 {
           } else {
             98.0
           }
+        } else {
+          0.0
         }
-        Platform::Watch => 0.0,
       })
       .is_background(true)
       .build()
@@ -292,8 +293,8 @@ impl ColorSpec for ColorSpec2025 {
     let color2025 = DynamicColorBuilder::new()
       .name("surface_container_low")
       .palette(|s| s.neutral_palette())
-      .tone(|s| match *s.platform() {
-        Platform::Phone => {
+      .tone(|s| {
+        if s.platform() == &Platform::Phone {
           if s.is_dark() {
             6.0
           } else if Hct::is_yellow(s.neutral_palette().hue()) {
@@ -303,8 +304,9 @@ impl ColorSpec for ColorSpec2025 {
           } else {
             96.0
           }
+        } else {
+          15.0
         }
-        Platform::Watch => 15.0,
       })
       .is_background(true)
       .chroma_multiplier(|s| {
@@ -338,8 +340,8 @@ impl ColorSpec for ColorSpec2025 {
     let color2025 = DynamicColorBuilder::new()
       .name("surface_container")
       .palette(|s| s.neutral_palette())
-      .tone(|s| match *s.platform() {
-        Platform::Phone => {
+      .tone(|s| {
+        if s.platform() == &Platform::Phone {
           if s.is_dark() {
             9.0
           } else if Hct::is_yellow(s.neutral_palette().hue()) {
@@ -349,8 +351,9 @@ impl ColorSpec for ColorSpec2025 {
           } else {
             94.0
           }
+        } else {
+          20.0
         }
-        Platform::Watch => 20.0,
       })
       .is_background(true)
       .chroma_multiplier(|s| {
@@ -384,8 +387,8 @@ impl ColorSpec for ColorSpec2025 {
     let color2025 = DynamicColorBuilder::new()
       .name("surface_container_high")
       .palette(|s| s.neutral_palette())
-      .tone(|s| match *s.platform() {
-        Platform::Phone => {
+      .tone(|s| {
+        if s.platform() == &Platform::Phone {
           if s.is_dark() {
             12.0
           } else if Hct::is_yellow(s.neutral_palette().hue()) {
@@ -395,8 +398,9 @@ impl ColorSpec for ColorSpec2025 {
           } else {
             92.0
           }
+        } else {
+          25.0
         }
-        Platform::Watch => 25.0,
       })
       .is_background(true)
       .chroma_multiplier(|s| {
@@ -476,15 +480,14 @@ impl ColorSpec for ColorSpec2025 {
           Self::t_max_c_with_chroma_multiplier(s.neutral_palette(), 0.0, 100.0, 1.1)
         } else {
           DynamicColor::get_initial_tone_from_background(Some(|s: &DynamicScheme| {
-            Some(match *s.platform() {
-              Platform::Phone => {
-                if s.is_dark() {
-                  self.surface_bright()
-                } else {
-                  self.surface_dim()
-                }
+            Some(if s.platform() == &Platform::Phone {
+              if s.is_dark() {
+                self.surface_bright()
+              } else {
+                self.surface_dim()
               }
-              Platform::Watch => self.surface_container_high(),
+            } else {
+              self.surface_container_high()
             })
           }))(s)
         }
@@ -506,23 +509,22 @@ impl ColorSpec for ColorSpec2025 {
         1.0
       })
       .background(|s| {
-        match *s.platform() {
-          Platform::Phone => {
-            if s.is_dark() {
-              self.surface_bright()
-            } else {
-              self.surface_dim()
-            }
+        if s.platform() == &Platform::Phone {
+          if s.is_dark() {
+            self.surface_bright()
+          } else {
+            self.surface_dim()
           }
-          Platform::Watch => self.surface_container_high(),
+        } else {
+          self.surface_container_high()
         }
         .into()
       })
       .contrast_curve(|s: &DynamicScheme| {
-        if s.is_dark() {
-          Self::contrast_curve(11.0)
+        if s.is_dark() && s.platform() == &Platform::Phone {
+          Self::get_contrast_curve(11.0)
         } else {
-          Self::contrast_curve(9.0)
+          Self::get_contrast_curve(9.0)
         }
         .into()
       })
@@ -569,27 +571,26 @@ impl ColorSpec for ColorSpec2025 {
         1.0
       })
       .background(|s| {
-        match *s.platform() {
-          Platform::Phone => {
-            if s.is_dark() {
-              self.surface_bright()
-            } else {
-              self.surface_dim()
-            }
+        if s.platform() == &Platform::Phone {
+          if s.is_dark() {
+            self.surface_bright()
+          } else {
+            self.surface_dim()
           }
-          Platform::Watch => self.surface_container_high(),
+        } else {
+          self.surface_container_high()
         }
         .into()
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone {
           if s.is_dark() {
-            Self::contrast_curve(6.0)
+            Self::get_contrast_curve(6.0)
           } else {
-            Self::contrast_curve(4.5)
+            Self::get_contrast_curve(4.5)
           }
         } else {
-          Self::contrast_curve(7.0)
+          Self::get_contrast_curve(7.0)
         }
         .into()
       })
@@ -622,7 +623,7 @@ impl ColorSpec for ColorSpec2025 {
       .name("inverse_on_surface")
       .palette(|s| s.neutral_palette())
       .background(|_| self.inverse_surface().into())
-      .contrast_curve(|_| Self::contrast_curve(7.0).into())
+      .contrast_curve(|_| Self::get_contrast_curve(7.0).into())
       .build()
       .unwrap();
     DynamicColorBuilder::from(SPEC_2021.inverse_on_surface())
@@ -653,23 +654,22 @@ impl ColorSpec for ColorSpec2025 {
         1.0
       })
       .background(|s| {
-        match *s.platform() {
-          Platform::Phone => {
-            if s.is_dark() {
-              self.surface_bright()
-            } else {
-              self.surface_dim()
-            }
+        if s.platform() == &Platform::Phone {
+          if s.is_dark() {
+            self.surface_bright()
+          } else {
+            self.surface_dim()
           }
-          Platform::Watch => self.surface_container_high(),
+        } else {
+          self.surface_container_high()
         }
         .into()
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone {
-          Self::contrast_curve(3.0)
+          Self::get_contrast_curve(3.0)
         } else {
-          Self::contrast_curve(4.5)
+          Self::get_contrast_curve(4.5)
         }
         .into()
       })
@@ -703,23 +703,22 @@ impl ColorSpec for ColorSpec2025 {
         1.0
       })
       .background(|s| {
-        match *s.platform() {
-          Platform::Phone => {
-            if s.is_dark() {
-              self.surface_bright()
-            } else {
-              self.surface_dim()
-            }
+        if s.platform() == &Platform::Phone {
+          if s.is_dark() {
+            self.surface_bright()
+          } else {
+            self.surface_dim()
           }
-          Platform::Watch => self.surface_container_high(),
+        } else {
+          self.surface_container_high()
         }
         .into()
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone {
-          Self::contrast_curve(1.5)
+          Self::get_contrast_curve(1.5)
         } else {
-          Self::contrast_curve(3.0)
+          Self::get_contrast_curve(3.0)
         }
         .into()
       })
@@ -805,22 +804,21 @@ impl ColorSpec for ColorSpec2025 {
       })
       .is_background(true)
       .background(|s| {
-        match *s.platform() {
-          Platform::Phone => {
-            if s.is_dark() {
-              self.surface_bright()
-            } else {
-              self.surface_dim()
-            }
+        if s.platform() == &Platform::Phone {
+          if s.is_dark() {
+            self.surface_bright()
+          } else {
+            self.surface_dim()
           }
-          Platform::Watch => self.surface_container_high(),
+        } else {
+          self.surface_container_high()
         }
         .into()
       })
       .contrast_curve(|s: &DynamicScheme| {
         match *s.platform() {
-          Platform::Phone => Self::contrast_curve(4.5),
-          Platform::Watch => Self::contrast_curve(7.0),
+          Platform::Phone => Self::get_contrast_curve(4.5),
+          Platform::Watch => Self::get_contrast_curve(7.0),
         }
         .into()
       })
@@ -858,7 +856,7 @@ impl ColorSpec for ColorSpec2025 {
       })
       .is_background(true)
       .background(|_| self.surface_container_high().into())
-      .contrast_curve(|_: &DynamicScheme| Self::contrast_curve(4.5).into())
+      .contrast_curve(|_: &DynamicScheme| Self::get_contrast_curve(4.5).into())
       .tone_delta_pair(|_| {
         ToneDeltaPair::with_constraint(
           self.primary_dim().unwrap(),
@@ -887,8 +885,8 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s: &DynamicScheme| {
         match *s.platform() {
-          Platform::Phone => Self::contrast_curve(6.0),
-          Platform::Watch => Self::contrast_curve(7.0),
+          Platform::Phone => Self::get_contrast_curve(6.0),
+          Platform::Watch => Self::get_contrast_curve(7.0),
         }
         .into()
       })
@@ -965,7 +963,7 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone && s.contrast_level() > 0.0 {
-          Some(Self::contrast_curve(1.5))
+          Some(Self::get_contrast_curve(1.5))
         } else {
           None
         }
@@ -986,8 +984,8 @@ impl ColorSpec for ColorSpec2025 {
       .background(|_| self.primary_container().into())
       .contrast_curve(|s: &DynamicScheme| {
         match *s.platform() {
-          Platform::Phone => Self::contrast_curve(6.0),
-          Platform::Watch => Self::contrast_curve(7.0),
+          Platform::Phone => Self::get_contrast_curve(6.0),
+          Platform::Watch => Self::get_contrast_curve(7.0),
         }
         .into()
       })
@@ -1008,8 +1006,8 @@ impl ColorSpec for ColorSpec2025 {
       .background(|_| self.inverse_surface().into())
       .contrast_curve(|s: &DynamicScheme| {
         match *s.platform() {
-          Platform::Phone => Self::contrast_curve(6.0),
-          Platform::Watch => Self::contrast_curve(7.0),
+          Platform::Phone => Self::get_contrast_curve(6.0),
+          Platform::Watch => Self::get_contrast_curve(7.0),
         }
         .into()
       })
@@ -1051,22 +1049,21 @@ impl ColorSpec for ColorSpec2025 {
       })
       .is_background(true)
       .background(|s| {
-        match *s.platform() {
-          Platform::Phone => {
-            if s.is_dark() {
-              self.surface_bright()
-            } else {
-              self.surface_dim()
-            }
+        if s.platform() == &Platform::Phone {
+          if s.is_dark() {
+            self.surface_bright()
+          } else {
+            self.surface_dim()
           }
-          Platform::Watch => self.surface_container_high(),
+        } else {
+          self.surface_container_high()
         }
         .into()
       })
       .contrast_curve(|s: &DynamicScheme| {
         match *s.platform() {
-          Platform::Phone => Self::contrast_curve(4.5),
-          Platform::Watch => Self::contrast_curve(7.0),
+          Platform::Phone => Self::get_contrast_curve(4.5),
+          Platform::Watch => Self::get_contrast_curve(7.0),
         }
         .into()
       })
@@ -1102,7 +1099,7 @@ impl ColorSpec for ColorSpec2025 {
       })
       .is_background(true)
       .background(|_| self.surface_container_high().into())
-      .contrast_curve(|_| Self::contrast_curve(4.5).into())
+      .contrast_curve(|_| Self::get_contrast_curve(4.5).into())
       .tone_delta_pair(|_| {
         ToneDeltaPair::with_constraint(
           self.secondary_dim().unwrap(),
@@ -1128,8 +1125,8 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s: &DynamicScheme| {
         match *s.platform() {
-          Platform::Phone => Self::contrast_curve(6.0),
-          Platform::Watch => Self::contrast_curve(7.0),
+          Platform::Phone => Self::get_contrast_curve(6.0),
+          Platform::Watch => Self::get_contrast_curve(7.0),
         }
         .into()
       })
@@ -1188,7 +1185,7 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone && s.contrast_level() > 0.0 {
-          Some(Self::contrast_curve(1.5))
+          Some(Self::get_contrast_curve(1.5))
         } else {
           None
         }
@@ -1209,8 +1206,8 @@ impl ColorSpec for ColorSpec2025 {
       .background(|_| self.secondary_container().into())
       .contrast_curve(|s: &DynamicScheme| {
         match *s.platform() {
-          Platform::Phone => Self::contrast_curve(6.0),
-          Platform::Watch => Self::contrast_curve(7.0),
+          Platform::Phone => Self::get_contrast_curve(6.0),
+          Platform::Watch => Self::get_contrast_curve(7.0),
         }
         .into()
       })
@@ -1271,9 +1268,9 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s| {
         if s.platform() == &Platform::Phone {
-          Self::contrast_curve(4.5)
+          Self::get_contrast_curve(4.5)
         } else {
-          Self::contrast_curve(7.0)
+          Self::get_contrast_curve(7.0)
         }
         .into()
       })
@@ -1313,7 +1310,7 @@ impl ColorSpec for ColorSpec2025 {
       })
       .is_background(true)
       .background(|_| self.surface_container_high().into())
-      .contrast_curve(|_| Self::contrast_curve(4.5).into())
+      .contrast_curve(|_| Self::get_contrast_curve(4.5).into())
       .tone_delta_pair(|_| {
         ToneDeltaPair::with_constraint(
           self.tertiary_dim().unwrap(),
@@ -1342,9 +1339,9 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s| {
         if s.platform() == &Platform::Phone {
-          Self::contrast_curve(6.0)
+          Self::get_contrast_curve(6.0)
         } else {
-          Self::contrast_curve(7.0)
+          Self::get_contrast_curve(7.0)
         }
         .into()
       })
@@ -1427,7 +1424,7 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s| {
         if s.platform() == &Platform::Phone && s.contrast_level() > 0.0 {
-          Self::contrast_curve(1.5).into()
+          Self::get_contrast_curve(1.5).into()
         } else {
           None
         }
@@ -1448,9 +1445,9 @@ impl ColorSpec for ColorSpec2025 {
       .background(|_| self.tertiary_container().into())
       .contrast_curve(|s| {
         if s.platform() == &Platform::Phone {
-          Self::contrast_curve(6.0)
+          Self::get_contrast_curve(6.0)
         } else {
-          Self::contrast_curve(7.0)
+          Self::get_contrast_curve(7.0)
         }
         .into()
       })
@@ -1499,9 +1496,9 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone {
-          Self::contrast_curve(4.5)
+          Self::get_contrast_curve(4.5)
         } else {
-          Self::contrast_curve(7.0)
+          Self::get_contrast_curve(7.0)
         }
         .into()
       })
@@ -1534,7 +1531,7 @@ impl ColorSpec for ColorSpec2025 {
       .tone(|s| Self::t_min_c(s.error_palette()))
       .is_background(true)
       .background(|_| self.surface_container_high().into())
-      .contrast_curve(|_| Self::contrast_curve(4.5).into())
+      .contrast_curve(|_| Self::get_contrast_curve(4.5).into())
       .tone_delta_pair(|_| {
         ToneDeltaPair::with_constraint(
           self.error_dim().unwrap(),
@@ -1563,9 +1560,9 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone {
-          Self::contrast_curve(6.0)
+          Self::get_contrast_curve(6.0)
         } else {
-          Self::contrast_curve(7.0)
+          Self::get_contrast_curve(7.0)
         }
         .into()
       })
@@ -1619,7 +1616,7 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone && s.contrast_level() > 0.0 {
-          Self::contrast_curve(1.5).into()
+          Self::get_contrast_curve(1.5).into()
         } else {
           None
         }
@@ -1640,9 +1637,9 @@ impl ColorSpec for ColorSpec2025 {
       .background(|_| self.error_container().into())
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone {
-          Self::contrast_curve(4.5)
+          Self::get_contrast_curve(4.5)
         } else {
-          Self::contrast_curve(7.0)
+          Self::get_contrast_curve(7.0)
         }
         .into()
       })
@@ -1685,7 +1682,7 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone && s.contrast_level() > 0.0 {
-          Self::contrast_curve(1.5).into()
+          Self::get_contrast_curve(1.5).into()
         } else {
           None
         }
@@ -1729,7 +1726,7 @@ impl ColorSpec for ColorSpec2025 {
       .name("on_primary_fixed")
       .palette(|s| s.primary_palette())
       .background(|_| self.primary_fixed_dim().into())
-      .contrast_curve(|_| Self::contrast_curve(7.0).into())
+      .contrast_curve(|_| Self::get_contrast_curve(7.0).into())
       .build()
       .unwrap();
     DynamicColorBuilder::from(SPEC_2021.on_primary_fixed())
@@ -1744,7 +1741,7 @@ impl ColorSpec for ColorSpec2025 {
       .name("on_primary_fixed_variant")
       .palette(|s| s.primary_palette())
       .background(|_| self.primary_fixed_dim().into())
-      .contrast_curve(|_| Self::contrast_curve(4.5).into())
+      .contrast_curve(|_| Self::get_contrast_curve(4.5).into())
       .build()
       .unwrap();
     DynamicColorBuilder::from(SPEC_2021.on_primary_fixed_variant())
@@ -1784,7 +1781,7 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone && s.contrast_level() > 0.0 {
-          Self::contrast_curve(1.5).into()
+          Self::get_contrast_curve(1.5).into()
         } else {
           None
         }
@@ -1828,7 +1825,7 @@ impl ColorSpec for ColorSpec2025 {
       .name("on_secondary_fixed")
       .palette(|s| s.secondary_palette())
       .background(|_| self.secondary_fixed_dim().into())
-      .contrast_curve(|_| Self::contrast_curve(7.0).into())
+      .contrast_curve(|_| Self::get_contrast_curve(7.0).into())
       .build()
       .unwrap();
     DynamicColorBuilder::from(SPEC_2021.on_secondary_fixed())
@@ -1843,7 +1840,7 @@ impl ColorSpec for ColorSpec2025 {
       .name("on_secondary_fixed_variant")
       .palette(|s| s.secondary_palette())
       .background(|_| self.secondary_fixed_dim().into())
-      .contrast_curve(|_| Self::contrast_curve(4.5).into())
+      .contrast_curve(|_| Self::get_contrast_curve(4.5).into())
       .build()
       .unwrap();
     DynamicColorBuilder::from(SPEC_2021.on_secondary_fixed_variant())
@@ -1883,7 +1880,7 @@ impl ColorSpec for ColorSpec2025 {
       })
       .contrast_curve(|s: &DynamicScheme| {
         if s.platform() == &Platform::Phone && s.contrast_level() > 0.0 {
-          Self::contrast_curve(1.5).into()
+          Self::get_contrast_curve(1.5).into()
         } else {
           None
         }
@@ -1927,7 +1924,7 @@ impl ColorSpec for ColorSpec2025 {
       .name("on_tertiary_fixed")
       .palette(|s| s.tertiary_palette())
       .background(|_| self.tertiary_fixed_dim().into())
-      .contrast_curve(|_| Self::contrast_curve(7.0).into())
+      .contrast_curve(|_| Self::get_contrast_curve(7.0).into())
       .build()
       .unwrap();
     DynamicColorBuilder::from(SPEC_2021.on_tertiary_fixed())
@@ -1942,7 +1939,7 @@ impl ColorSpec for ColorSpec2025 {
       .name("on_tertiary_fixed_variant")
       .palette(|s| s.tertiary_palette())
       .background(|_| self.tertiary_fixed_dim().into())
-      .contrast_curve(|_| Self::contrast_curve(4.5).into())
+      .contrast_curve(|_| Self::get_contrast_curve(4.5).into())
       .build()
       .unwrap();
     DynamicColorBuilder::from(SPEC_2021.on_tertiary_fixed_variant())
